@@ -22,7 +22,7 @@ public class Helper {
         
         if(input.contains(" "))
         {
-            input = input.replaceAll(" ", "%20");
+            input = input.replaceAll(" ", "+");
         }
             
         return input;

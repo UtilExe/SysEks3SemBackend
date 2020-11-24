@@ -27,6 +27,8 @@ public class ApplicationConfig extends Application {
         resources.add(rest.DemoResource.class);
         resources.add(rest.ITunesResource.class);
         resources.add(rest.LyricsovhResource.class);
+        resources.add(rest.SimilarResource.class);
+        resources.add(rest.SongResource.class);
         resources.add(security.JWTAuthenticationFilter.class);
         resources.add(security.LoginEndpoint.class);
         resources.add(security.RolesAllowedFilter.class);

@@ -18,10 +18,6 @@ public class HttpUtils {
         con.setRequestProperty("User-Agent", "server");
         con.setRequestProperty("Content-Type", "application/json");
         
-        if (url.toString().contains("api.digitalocean")) {
-            con.setRequestProperty("Authorization","Bearer "+ Keys.digitalOceanBearer);
-        }
-        
         Scanner scan = new Scanner(con.getInputStream());
         String jsonStr = "";
         while (scan.hasNext()) {
