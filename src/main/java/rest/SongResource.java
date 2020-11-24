@@ -52,6 +52,7 @@ public class SongResource {
     @Consumes({MediaType.APPLICATION_JSON})
     public String getSong(String song) throws InterruptedException, ExecutionException, TimeoutException {
         SongDTO track = gson.fromJson(song, SongDTO.class);
+        track.setSong(helper.fixInput(track.getSong()));
         return responseWithParallelFetch(es, track);
     }
     

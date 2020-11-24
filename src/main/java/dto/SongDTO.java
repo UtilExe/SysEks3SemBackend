@@ -16,4 +16,9 @@ public class SongDTO {
     public String getArtist() {
         return artist;
     } 
+
+    public void setSong(String song) {
+        this.song = song;
+    }
+
 }
