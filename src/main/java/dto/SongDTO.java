@@ -21,4 +21,8 @@ public class SongDTO {
         this.song = song;
     }
 
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
 }

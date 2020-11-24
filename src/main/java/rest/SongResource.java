@@ -53,6 +53,7 @@ public class SongResource {
     public String getSong(String song) throws InterruptedException, ExecutionException, TimeoutException {
         SongDTO track = gson.fromJson(song, SongDTO.class);
         track.setSong(helper.fixInput(track.getSong()));
+        track.setArtist(helper.fixInput(track.getArtist()));
         return responseWithParallelFetch(es, track);
     }
     
@@ -79,7 +80,7 @@ public class SongResource {
         Callable<SimilarDTO> similarTask = new Callable<SimilarDTO>() {
             @Override
             public SimilarDTO call() throws IOException {
-                String similar = HttpUtils.fetchData(similarURL+ "?type=music&info=1&q="+ song + "?k=" + Keys.tastediveApi);
+                String similar = HttpUtils.fetchData(similarURL+ "?type=music&info=1&q="+ song + "&k=" + Keys.tastediveApi);
                 SimilarDTO similarDTO = gson.fromJson(similar, SimilarDTO.class);
                 return similarDTO;
             }
