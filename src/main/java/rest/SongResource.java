@@ -64,7 +64,7 @@ public class SongResource {
         Callable<ITunesDTO> itunesTask = new Callable<ITunesDTO>() {
             @Override
             public ITunesDTO call() throws IOException {
-                String itunes = HttpUtils.fetchData(iTunesURL + "term=" + song);
+                String itunes = HttpUtils.fetchData(iTunesURL + "term=" + song + "&limit=1");
                 ITunesDTO iTunesDTO = gson.fromJson(itunes, ITunesDTO.class);
                 return iTunesDTO;
             }
@@ -80,7 +80,7 @@ public class SongResource {
         Callable<SimilarDTO> similarTask = new Callable<SimilarDTO>() {
             @Override
             public SimilarDTO call() throws IOException {
-                String similar = HttpUtils.fetchData(similarURL+ "?type=music&info=1&q="+ song + "&k=" + Keys.tastediveApi);
+                String similar = HttpUtils.fetchData(similarURL+ "?type=music&info=1&q="+ song + "&k=" + Keys.tastediveApi + "&limit=1");
                 SimilarDTO similarDTO = gson.fromJson(similar, SimilarDTO.class);
                 return similarDTO;
             }
