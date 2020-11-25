@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dat3startcode/rest-jpa-devops-startcode.svg?branch=master)](https://travis-ci.org/dat3startcode/rest-jpa-devops-startcode)
+[![Build Status](https://travis-ci.com/UtilExe/SysEks3SemBackend.svg?branch=master)](https://travis-ci.com/UtilExe/SysEks3SemBackend)
 
 # CA3 Backend Project
 
