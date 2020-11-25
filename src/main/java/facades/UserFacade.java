@@ -1,5 +1,6 @@
 package facades;
 
+import entities.Role;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -37,6 +38,30 @@ public class UserFacade {
         } finally {
             em.close();
         }
+        return user;
+    }
+
+    public User createUser(String username, String password) {
+        EntityManager em = emf.createEntityManager();
+        User user;
+        try {
+            user = em.find(User.class, username);
+            if (user != null) {
+                throw new UnsupportedOperationException("Username already exist!");
+
+            } else {
+                em.getTransaction().begin();
+                user = new User(username, password);
+                Role userRole = new Role("user");
+                user.addRole(userRole);
+               // em.persist(userRole);
+                em.persist(user);
+                em.getTransaction().commit();
+            }
+        } finally {
+            em.close();
+        }
+
         return user;
     }
 

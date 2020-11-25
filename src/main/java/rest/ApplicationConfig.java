@@ -30,7 +30,8 @@ public class ApplicationConfig extends Application {
         resources.add(rest.SimilarResource.class);
         resources.add(rest.SongResource.class);
         resources.add(security.JWTAuthenticationFilter.class);
-        resources.add(security.LoginEndpoint.class);
+        resources.add(security.LoginResource.class);
+        resources.add(security.RegisterResource.class);
         resources.add(security.RolesAllowedFilter.class);
         resources.add(security.errorhandling.AuthenticationExceptionMapper.class);
         resources.add(security.errorhandling.NotAuthorizedExceptionMapper.class);
