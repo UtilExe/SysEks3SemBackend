@@ -41,23 +41,31 @@ public class RegisterResource {
     public Response register(String jsonString) throws AuthenticationException, API_Exception {
         String username;
         String password;
+        String passwordCheck;
         try {
             JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
             username = json.get("username").getAsString();
             password = json.get("password").getAsString();
+            passwordCheck = json.get("passwordCheck").getAsString();
         } catch (Exception e) {
             throw new API_Exception("Malformed JSON Suplied", 400, e);
         }
 
         try {
-            User user = USER_FACADE.createUser(username, password);
+            User user = USER_FACADE.createUser(username, password, passwordCheck);
             JsonObject responseJson = new JsonObject();
             responseJson.addProperty("username", username);
-            responseJson.addProperty("password", password);
+          /*  responseJson.addProperty("password", password);
+            responseJson.addProperty("passwordCheck", passwordCheck);*/
+            responseJson.addProperty("Success", "Your account has been created");
             return Response.ok(new Gson().toJson(responseJson)).build();
 
         } catch (Exception e) {
-            throw new API_Exception("Username already exists !", 400, e);
+            if (e instanceof AuthenticationException) {
+                throw new API_Exception("Username already exists", 400, e);
+            } else {
+            throw new API_Exception("Password doesn't match", 400, e);
+            }
         }
     }
 }

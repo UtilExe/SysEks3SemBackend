@@ -41,22 +41,25 @@ public class UserFacade {
         return user;
     }
 
-    public User createUser(String username, String password) {
+    public User createUser(String username, String password, String passwordCheck) throws AuthenticationException {
         EntityManager em = emf.createEntityManager();
         User user;
         try {
             user = em.find(User.class, username);
             if (user != null) {
-                throw new UnsupportedOperationException("Username already exist!");
-
+                throw new AuthenticationException("Username already exist!");
             } else {
                 em.getTransaction().begin();
-                user = new User(username, password);
-                Role userRole = new Role("user");
-                user.addRole(userRole);
-               // em.persist(userRole);
-                em.persist(user);
-                em.getTransaction().commit();
+                if (password.equals(passwordCheck)) {
+                    user = new User(username, password);
+                    Role userRole = new Role("user");
+                    user.addRole(userRole);
+                    // em.persist(userRole);
+                    em.persist(user);
+                    em.getTransaction().commit();
+                } else {
+                    throw new UnsupportedOperationException("Passwords are not the same!");
+                }
             }
         } finally {
             em.close();
