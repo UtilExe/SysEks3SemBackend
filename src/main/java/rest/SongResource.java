@@ -16,6 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -48,6 +49,7 @@ public class SongResource {
     
     @Path("search")
     @POST
+    @RolesAllowed({"user", "admin"})
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public String getSong(String song) throws InterruptedException, ExecutionException, TimeoutException {
@@ -56,7 +58,6 @@ public class SongResource {
         track.setArtist(helper.fixInput(track.getArtist()));
         return responseWithParallelFetch(es, track);
     }
-    
 
     public static String responseWithParallelFetch(ExecutorService threadPool, SongDTO track) throws InterruptedException, ExecutionException, TimeoutException {
         String song = track.getSong();

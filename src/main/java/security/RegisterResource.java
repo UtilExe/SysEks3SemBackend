@@ -57,7 +57,7 @@ public class RegisterResource {
             responseJson.addProperty("username", username);
           /*  responseJson.addProperty("password", password);
             responseJson.addProperty("passwordCheck", passwordCheck);*/
-            responseJson.addProperty("Success", "Your account has been created");
+            responseJson.addProperty("msg", "Your account has been created");
             return Response.ok(new Gson().toJson(responseJson)).build();
 
         } catch (Exception e) {
