@@ -25,6 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import security.errorhandling.AuthenticationException;
 import errorhandling.GenericExceptionMapper;
+import errorhandling.Messages;
 import javax.persistence.EntityManagerFactory;
 import utils.EMF_Creator;
 
@@ -34,6 +35,8 @@ public class LoginResource {
     public static final int TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30 min
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     public static final UserFacade USER_FACADE = UserFacade.getUserFacade(EMF);
+    
+    private static final Messages messages = new Messages();
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -46,7 +49,7 @@ public class LoginResource {
             username = json.get("username").getAsString();
             password = json.get("password").getAsString();
         } catch (Exception e) {
-           throw new API_Exception("Malformed JSON Suplied",400,e);
+           throw new API_Exception(messages.malformedJson,400,e);
         }
 
         try {
@@ -63,7 +66,7 @@ public class LoginResource {
             }
             Logger.getLogger(GenericExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        throw new AuthenticationException("Invalid username or password! Please try again");
+        throw new AuthenticationException(messages.invalidUsernameOrPwd);
     }
 
     private String createToken(String userName, List<String> roles) throws JOSEException {

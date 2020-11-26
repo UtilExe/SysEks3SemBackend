@@ -4,6 +4,7 @@ import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.SignedJWT;
+import errorhandling.Messages;
 import security.errorhandling.AuthenticationException;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -28,6 +29,8 @@ import javax.ws.rs.ext.Provider;
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class JWTAuthenticationFilter implements ContainerRequestFilter {
+    
+    private static final Messages messages = new Messages();
 
  private static final List<Class<? extends Annotation>> securityAnnotations
          = Arrays.asList(DenyAll.class, PermitAll.class, RolesAllowed.class);
@@ -40,7 +43,7 @@ public class JWTAuthenticationFilter implements ContainerRequestFilter {
 
      String token = request.getHeaderString("x-access-token");//
      if (token == null) {
-       request.abortWith(errorhandling.GenericExceptionMapper.makeErrRes("Not authenticated - do login", 403));
+       request.abortWith(errorhandling.GenericExceptionMapper.makeErrRes(messages.notAuthenticaded, 403));
        return;
      }
      try {
@@ -49,7 +52,7 @@ public class JWTAuthenticationFilter implements ContainerRequestFilter {
        request.setSecurityContext(new JWTSecurityContext(user, request));
      } catch (AuthenticationException | ParseException | JOSEException ex) {
        Logger.getLogger(JWTAuthenticationFilter.class.getName()).log(Level.SEVERE, null, ex);
-       request.abortWith(errorhandling.GenericExceptionMapper.makeErrRes("Token not valid (timed out?)", 403));
+       request.abortWith(errorhandling.GenericExceptionMapper.makeErrRes(messages.tokenInvalidOrExpired, 403));
      }
    }
  }
@@ -77,7 +80,7 @@ public class JWTAuthenticationFilter implements ContainerRequestFilter {
 
    if (signedJWT.verify(verifier)) {
      if (new Date().getTime() > signedJWT.getJWTClaimsSet().getExpirationTime().getTime()) {
-       throw new AuthenticationException("Your Token is no longer valid");
+       throw new AuthenticationException(messages.tokenExpired);
      }
      String roles = signedJWT.getJWTClaimsSet().getClaim("roles").toString();
      String username = signedJWT.getJWTClaimsSet().getClaim("username").toString();
@@ -87,7 +90,7 @@ public class JWTAuthenticationFilter implements ContainerRequestFilter {
      return new UserPrincipal(username, rolesArray);
 //     return new UserPrincipal(username, roles);
    } else {
-     throw new JOSEException("User could not be extracted from token");
+     throw new JOSEException(messages.tokenCannotExtractUser);
    }
  }
 }

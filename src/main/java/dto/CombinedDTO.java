@@ -11,5 +11,13 @@ public class CombinedDTO {
         this.similar = similar;
     }
     
+    public boolean isEmpty() {
+        if(this.itunes == null && this.lyrics == null && this.similar == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     
 }

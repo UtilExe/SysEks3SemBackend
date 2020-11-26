@@ -2,6 +2,7 @@ package facades;
 
 import entities.Role;
 import entities.User;
+import errorhandling.Messages;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import security.errorhandling.AuthenticationException;
@@ -10,6 +11,8 @@ public class UserFacade {
 
     private static EntityManagerFactory emf;
     private static UserFacade instance;
+    
+    private static final Messages messages = new Messages();
 
     private UserFacade() {
     }
@@ -33,7 +36,7 @@ public class UserFacade {
         try {
             user = em.find(User.class, username);
             if (user == null || !user.verifyPassword(password)) {
-                throw new AuthenticationException("Invalid user name or password");
+                throw new AuthenticationException(messages.invalidUsernameOrPwd);
             }
         } finally {
             em.close();
@@ -47,7 +50,7 @@ public class UserFacade {
         try {
             user = em.find(User.class, username);
             if (user != null) {
-                throw new AuthenticationException("Username already exist!");
+                throw new AuthenticationException(messages.usernameAlreadyExists);
             } else {
                 em.getTransaction().begin();
                 if (password.equals(passwordCheck)) {
@@ -58,7 +61,7 @@ public class UserFacade {
                     em.persist(user);
                     em.getTransaction().commit();
                 } else {
-                    throw new UnsupportedOperationException("Passwords are not the same!");
+                    throw new UnsupportedOperationException(messages.passwordsNotMatch);
                 }
             }
         } finally {

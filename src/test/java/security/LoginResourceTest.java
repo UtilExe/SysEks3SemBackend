@@ -1,4 +1,4 @@
-package rest;
+package security;
 
 import entities.User;
 import entities.Role;
@@ -20,10 +20,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import rest.ApplicationConfig;
 import utils.EMF_Creator;
 
 @Disabled
-public class LoginEndpointTest {
+public class LoginResourceTest {
 
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";

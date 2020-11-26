@@ -7,6 +7,8 @@ import dto.ITunesDTO;
 import dto.LyricsDTO;
 import dto.SimilarDTO;
 import dto.SongDTO;
+import errorhandling.API_Exception;
+import errorhandling.Messages;
 import facades.FacadeExample;
 import java.io.IOException;
 import java.util.concurrent.Callable;
@@ -41,6 +43,8 @@ public class SongResource {
     private static final ExecutorService es = Executors.newCachedThreadPool();
     private static Helper helper = new Helper();
     
+    private static final Messages messages = new Messages();
+    
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String demo() {
@@ -52,14 +56,14 @@ public class SongResource {
     @RolesAllowed({"user", "admin"})
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public String getSong(String song) throws InterruptedException, ExecutionException, TimeoutException {
+    public String getSong(String song) throws InterruptedException, ExecutionException, TimeoutException, API_Exception {
         SongDTO track = gson.fromJson(song, SongDTO.class);
         track.setSong(helper.fixInput(track.getSong()));
         track.setArtist(helper.fixInput(track.getArtist()));
         return responseWithParallelFetch(es, track);
     }
 
-    public static String responseWithParallelFetch(ExecutorService threadPool, SongDTO track) throws InterruptedException, ExecutionException, TimeoutException {
+    public static String responseWithParallelFetch(ExecutorService threadPool, SongDTO track) throws InterruptedException, ExecutionException, TimeoutException, API_Exception {
         String song = track.getSong();
         String artist = track.getArtist();
         Callable<ITunesDTO> itunesTask = new Callable<ITunesDTO>() {
@@ -96,6 +100,11 @@ public class SongResource {
         SimilarDTO similar = futureSimilar.get(3, TimeUnit.SECONDS);
 
         CombinedDTO combinedDTO = new CombinedDTO(ITunes, lyrics, similar);
+        
+        if(combinedDTO.isEmpty()) {
+            throw new API_Exception(messages.songNotFound, 404);
+        }
+        
         String combinedJSON = gson.toJson(combinedDTO);
 
         return combinedJSON;

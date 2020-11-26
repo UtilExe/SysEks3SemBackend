@@ -14,10 +14,13 @@ import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
+import errorhandling.Messages;
 
 @Provider
 @Priority(Priorities.AUTHORIZATION)
 public class RolesAllowedFilter implements ContainerRequestFilter {
+    
+    private static final Messages messages = new Messages();
 
   @Context
   private ResourceInfo resourceInfo;
@@ -28,7 +31,7 @@ public class RolesAllowedFilter implements ContainerRequestFilter {
 
     // DenyAll on the method take precedence over RolesAllowed and PermitAll
     if (resourceMethod.isAnnotationPresent(DenyAll.class)) {
-       throw new NotAuthorizedException("Resource Not Found");
+       throw new NotAuthorizedException(messages.resourceNotFound);
       
     }
 
@@ -45,7 +48,7 @@ public class RolesAllowedFilter implements ContainerRequestFilter {
 
     if (resourceInfo.getResourceClass().isAnnotationPresent(DenyAll.class)) {
       //requestContext.abortWith(NOT_FOUND);
-      throw new NotAuthorizedException("Resource Not Found");
+      throw new NotAuthorizedException(messages.resourceNotFound);
     }
 
     // RolesAllowed on the class takes precedence over PermitAll
@@ -66,7 +69,7 @@ public class RolesAllowedFilter implements ContainerRequestFilter {
       }
       //requestContext.abortWith(NOT_FOUND);
       //abort(requestContext);
-      throw new NotAuthorizedException("You are not authorized to perform the requested operation",Response.Status.FORBIDDEN);
+      throw new NotAuthorizedException(messages.notAuthorized,Response.Status.FORBIDDEN);
     }
     return false;
   }
