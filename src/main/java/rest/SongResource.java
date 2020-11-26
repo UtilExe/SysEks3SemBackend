@@ -101,10 +101,11 @@ public class SongResource {
         
         if(combinedDTO.isEmpty()) {
             throw new API_Exception(messages.songNotFound, 404);
+        } else {
+            String combinedJSON = gson.toJson(combinedDTO);
+
+            return combinedJSON;
         }
         
-        String combinedJSON = gson.toJson(combinedDTO);
-
-        return combinedJSON;
     }
 }
