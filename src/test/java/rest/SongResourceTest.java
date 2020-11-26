@@ -111,8 +111,8 @@ public class SongResourceTest {
     }
 
     @Test
-    public void serverIsRunning() {
-        given().when().get("/info").then().statusCode(200);
+    public void serverIsRunningTest() {
+        given().when().get("/song").then().statusCode(200);
     }
     
     public SongResourceTest() {

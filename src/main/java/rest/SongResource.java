@@ -9,7 +9,6 @@ import dto.SimilarDTO;
 import dto.SongDTO;
 import errorhandling.API_Exception;
 import errorhandling.Messages;
-import facades.FacadeExample;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -35,7 +34,6 @@ import utils.Keys;
 public class SongResource {
     
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
-    private static final FacadeExample facade =  FacadeExample.getFacadeExample(EMF);
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String iTunesURL = "https://itunes.apple.com/search?country=DK&media=music&entity=song&limit=3&";
     private static final String lyricsURL = "https://api.lyrics.ovh/v1/";
@@ -47,8 +45,8 @@ public class SongResource {
     
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String demo() {
-        return "{\"msg\":\"Hello World\"}";
+    public String isUp() {
+        return String.format("{\"message\":\"%s\"}", messages.serverIsUp);
     }
     
     @Path("search")

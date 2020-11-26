@@ -16,7 +16,7 @@ import javax.ws.rs.core.SecurityContext;
 import utils.EMF_Creator;
 
 @Path("info")
-public class DemoResource {
+public class TestingResource {
     
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     @Context

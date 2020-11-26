@@ -95,6 +95,11 @@ public class RegisterResourceTest {
     
     public RegisterResourceTest() {
     }
+    
+    @Test
+    public void serverIsRunningTest() {
+        given().when().get("/register").then().statusCode(200);
+    }
 
     @Test
     public void registerTest() {

@@ -17,6 +17,7 @@ public class Messages {
     public final String tokenExpired = "Your Token is no longer valid";
     public final String tokenCannotExtractUser = "User could not be extracted from token";
     public final String songNotFound = "We couldn’t find information about that song...";
+    public final String serverIsUp = "Server is up";
 
     public Messages() {
     }

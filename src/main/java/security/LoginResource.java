@@ -27,6 +27,7 @@ import security.errorhandling.AuthenticationException;
 import errorhandling.GenericExceptionMapper;
 import errorhandling.Messages;
 import javax.persistence.EntityManagerFactory;
+import javax.ws.rs.GET;
 import utils.EMF_Creator;
 
 @Path("login")
@@ -37,6 +38,12 @@ public class LoginResource {
     public static final UserFacade USER_FACADE = UserFacade.getUserFacade(EMF);
     
     private static final Messages messages = new Messages();
+    
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public String isUp() {
+        return String.format("{\"message\":\"%s\"}", messages.serverIsUp);
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

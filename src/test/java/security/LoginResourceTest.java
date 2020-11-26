@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import rest.ApplicationConfig;
 import utils.EMF_Creator;
 
-@Disabled
 public class LoginResourceTest {
 
     private static final int SERVER_PORT = 7777;
@@ -110,8 +109,8 @@ public class LoginResourceTest {
     }
 
     @Test
-    public void serverIsRunning() {
-        given().when().get("/info").then().statusCode(200);
+    public void serverIsRunningTest() {
+        given().when().get("/login").then().statusCode(200);
     }
 
     @Test

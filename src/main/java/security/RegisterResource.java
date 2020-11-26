@@ -29,6 +29,7 @@ import errorhandling.GenericExceptionMapper;
 import javax.persistence.EntityManagerFactory;
 import utils.EMF_Creator;
 import errorhandling.Messages;
+import javax.ws.rs.GET;
 
 @Path("register")
 public class RegisterResource {
@@ -39,6 +40,12 @@ public class RegisterResource {
     
     private static final Messages messages = new Messages();
 
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public String isUp() {
+        return String.format("{\"message\":\"%s\"}", messages.serverIsUp);
+    }
+    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
