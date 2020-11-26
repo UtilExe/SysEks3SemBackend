@@ -1,5 +1,5 @@
 
-package security;
+package rest;
 
 import entities.Role;
 import entities.User;
@@ -20,11 +20,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import rest.ApplicationConfig;
+import org.junit.jupiter.api.Disabled;
 import utils.EMF_Creator;
 
-
-public class RegisterResourceTest {
+public class SongResourceTest {
     
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
@@ -92,46 +91,51 @@ public class RegisterResourceTest {
             em.close();
         }
     }
-    
-    public RegisterResourceTest() {
+
+    //This is how we hold on to the token after login, similar to that a client must store the token somewhere
+    private static String securityToken;
+
+    //Utility method to login and set the returned securityToken
+    private static void login(String role, String password) {
+        String json = String.format("{username: \"%s\", password: \"%s\"}", role, password);
+        securityToken = given()
+                .contentType("application/json")
+                .body(json)
+                .when().post("/login")
+                .then()
+                .extract().path("token");
+    }
+
+    private void logOut() {
+        securityToken = null;
     }
 
     @Test
-    public void registerTest() {
-        String username = "test@user.dk";
-        String password = "1234secret";
-        
-        String jsonRequest = String.format(
-                "{ \"username\": \"%s\", "
-                + "\"password\": \"%s\","
-                + "\"passwordCheck\": \"%s\" }", username, password, password);
-        
-        given()
-                .contentType("application/json")
-                .body(jsonRequest)
-                .when().post("/register").then()
-                .statusCode(200)
-                .body("username", equalTo("test@user.dk"))
-                .body("message", equalTo(messages.accountCreated));
+    public void serverIsRunning() {
+        given().when().get("/info").then().statusCode(200);
     }
     
+    public SongResourceTest() {
+    }
+
     @Test
-    public void registerTestPasswordNotMatch() {
-        String username = "test@user.dk";
-        String password1 = "1234secret";
-        String password2 = "4321secret";
+    public void songNotFoundTest() {
+        String songName = "dfsnkjdfsnkjdfkjjdjdjfk";
+        String artistName = "sdfsdfdsgdsfsd";
         
         String jsonRequest = String.format(
-                "{ \"username\": \"%s\", "
-                + "\"password\": \"%s\","
-                + "\"passwordCheck\": \"%s\" }", username, password1, password2);
+                "{ \"song\": \"%s\", "
+                + "\"artist\": \"%s\" }", songName, artistName);
+        
+        login("user", "test");
         
         given()
                 .contentType("application/json")
                 .body(jsonRequest)
-                .when().post("/register").then()
-                .statusCode(400)
-                .body("message", equalTo(messages.passwordsNotMatch));
+                .header("x-access-token", securityToken)
+                .when().post("/song/search").then()
+                .statusCode(404)
+                .body("message", equalTo(messages.songNotFound));
     }
     
 }

@@ -1,6 +1,9 @@
 
 package dto;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class ITunesDTO {
     
     Object results;
@@ -17,6 +20,13 @@ public class ITunesDTO {
 
     public String getTrackPrice() {
         return trackPrice;
+    }
+    
+    public boolean responseEqualsNull() {
+        if (this.results.equals(new ArrayList())) {
+            return true;
+        }
+        return false;
     }
     
     

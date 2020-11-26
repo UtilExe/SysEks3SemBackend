@@ -1,5 +1,7 @@
 package dto;
 
+import java.util.Objects;
+
 public class LyricsDTO {
     
     String artistName;
@@ -26,6 +28,15 @@ public class LyricsDTO {
     public Object getLyrics() {
         return lyrics;
     }
+
+    public boolean responseEqualsNull() {
+        if (this.lyrics.equals("")) {
+            return true;
+        }
+        return false;
+    }
+    
+    
     
     
 }
