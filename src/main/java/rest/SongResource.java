@@ -7,9 +7,11 @@ import dto.ITunesDTO;
 import dto.LyricsDTO;
 import dto.SimilarDTO;
 import dto.SongDTO;
+import entities.Song;
 import errorhandling.API_Exception;
 import errorhandling.Messages;
 import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -18,13 +20,18 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import javax.annotation.security.RolesAllowed;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
+import security.JWTAuthenticationFilter;
+import security.UserPrincipal;
 import utils.EMF_Creator;
 import utils.Helper;
 import utils.HttpUtils;
@@ -33,13 +40,14 @@ import utils.Keys;
 @Path("song")
 public class SongResource {
     
-    private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
+    private static final EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String iTunesURL = "https://itunes.apple.com/search?country=DK&media=music&entity=song&limit=3&";
     private static final String lyricsURL = "https://api.lyrics.ovh/v1/";
     private static final String similarURL = "https://tastedive.com/api/similar";
     private static final ExecutorService es = Executors.newCachedThreadPool();
     private static Helper helper = new Helper();
+    private static SecurityContext sc;
     
     private static final Messages messages = new Messages();
     
@@ -59,6 +67,25 @@ public class SongResource {
         track.setSong(helper.fixInput(track.getSong()));
         track.setArtist(helper.fixInput(track.getArtist()));
         return responseWithParallelFetch(es, track);
+    }
+    
+    @Path("bookmark")
+    @POST
+    @RolesAllowed({"user", "admin"})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public String bookmarkSong(@HeaderParam("x-access-token") String token, String inputSong) throws InterruptedException, ExecutionException, TimeoutException, API_Exception {
+        UserPrincipal user = (UserPrincipal) sc.getUserPrincipal();
+        JWTAuthenticationFilter jwtFilter = new JWTAuthenticationFilter();
+        //jwtFilter.getUserPrincipalFromTokenIfValid(token);
+        System.out.println(token);
+        SongDTO track = gson.fromJson(inputSong, SongDTO.class);
+        EntityManager em = emf.createEntityManager();
+        Song song = new Song(track.getSong(), track.getArtist(), track.getReleaseYear(), track.getAlbum());
+        em.getTransaction().begin();
+        em.persist(song);
+        em.getTransaction().commit();
+        return gson.toJson(track);
     }
 
     public static String responseWithParallelFetch(ExecutorService threadPool, SongDTO track) throws InterruptedException, ExecutionException, TimeoutException, API_Exception {
