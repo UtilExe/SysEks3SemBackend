@@ -10,11 +10,4 @@ public class SimilarDTO {
     public String getSearch() {
         return search;
     }
-    
-    public boolean responseEqualsNull() {
-        if (this.Similar == null) {
-            return true;
-        }
-        return false;
-    }
 }
