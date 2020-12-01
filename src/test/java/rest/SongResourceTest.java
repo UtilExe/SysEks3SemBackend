@@ -134,6 +134,7 @@ public class SongResourceTest {
                 .body(jsonRequest)
                 .header("x-access-token", securityToken)
                 .when().post("/song/search").then()
+                .statusCode(404)
                 .body("message", equalTo(messages.songNotFound));
     }
     

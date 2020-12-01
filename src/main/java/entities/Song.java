@@ -34,14 +34,14 @@ public class Song implements Serializable {
         this.id = id;
     }
 
-    @Column(nullable = false)
+    @Column(name="id", nullable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(name="artist", nullable = false)
     private String artist;
     @Size(max = 4)
-    @Column(nullable = false)
+    @Column(name="release_year", nullable = false)
     private int releaseYear;
-    @Column(nullable = true)
+    @Column(name="album", nullable = true)
     private String album;
     @ManyToMany(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "user_name")
