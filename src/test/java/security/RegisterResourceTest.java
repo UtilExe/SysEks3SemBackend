@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import rest.ApplicationConfig;
 import utils.EMF_Creator;
 
@@ -120,6 +121,7 @@ public class RegisterResourceTest {
                 .body("message", equalTo(messages.accountCreated));
     }
     
+    @Disabled
     @Test
     public void registerTestPasswordNotMatch() {
         String username = "test@user.dk";
