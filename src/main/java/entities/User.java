@@ -97,7 +97,7 @@ public class User implements Serializable {
         roleList.add(userRole);
     }
     
-    public void addUser(Song song) {
+    public void addSong(Song song) {
         if(song != null) {
             song.addUser(this);
             this.songs.add(song);
@@ -112,5 +112,4 @@ public class User implements Serializable {
             }
         }
     }
-
 }

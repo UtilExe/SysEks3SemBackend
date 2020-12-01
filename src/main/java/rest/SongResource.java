@@ -9,11 +9,11 @@ import dto.LyricsDTO;
 import dto.SimilarDTO;
 import dto.SongDTO;
 import entities.Song;
+import entities.User;
 import errorhandling.API_Exception;
 import errorhandling.Messages;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -79,12 +79,13 @@ public class SongResource {
     @Consumes({MediaType.APPLICATION_JSON})
     public String bookmarkSong(@HeaderParam("x-access-token") String token, String inputSong) throws InterruptedException, ExecutionException, TimeoutException, API_Exception, ParseException, JOSEException, AuthenticationException {
         JWTAuthenticationFilter jwtFilter = new JWTAuthenticationFilter();
-        UserPrincipal user = jwtFilter.getUserPrincipalFromTokenIfValid(token);
-        System.out.println("Token: " + token);
-        System.out.println("User: " + user.getName());
+        UserPrincipal userPrincipal = jwtFilter.getUserPrincipalFromTokenIfValid(token);
         SongDTO track = gson.fromJson(inputSong, SongDTO.class);
         EntityManager em = emf.createEntityManager();
         Song song = new Song(track.getSong(), track.getArtist(), track.getReleaseYear(), track.getAlbum());
+        User user = em.find(User.class, userPrincipal.getName());
+        user.addSong(song);
+        song.addUser(user);
         em.getTransaction().begin();
         em.persist(song);
         em.getTransaction().commit();
