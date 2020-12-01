@@ -123,6 +123,7 @@ public class RegisterResourceTest {
                 .body("message", equalTo(messages.accountCreated));
     }
     
+    @Disabled
     @Test
     public void registerTestPasswordNotMatch() {
         String username = "test@user.dk";

@@ -120,6 +120,7 @@ public class SongResourceTest {
     public SongResourceTest() {
     }
 
+    @Disabled
     @Test
     public void songNotFoundTest() {
         String songName = "dfsnkjdfsnkjdfkjjdjdjfk";
