@@ -131,15 +131,13 @@ public class SongResourceTest {
         
         login("user", "test");
         
-        Assertions.assertThrows(Exception.class, () -> {
-            given()
-                    .contentType("application/json")
-                    .body(jsonRequest)
-                    .header("x-access-token", securityToken)
-                    .when().post("/song/search").then()
-                    .statusCode(204)
-                    .body("message", equalTo(messages.songNotFound));
-        });
+        given()
+                .contentType("application/json")
+                .body(jsonRequest)
+                .header("x-access-token", securityToken)
+                .when().post("/song/search").then()
+                .statusCode(204)
+                .body("message", equalTo(messages.songNotFound));
     }
     
 }

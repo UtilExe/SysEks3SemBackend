@@ -134,14 +134,12 @@ public class RegisterResourceTest {
                 + "\"password\": \"%s\","
                 + "\"passwordCheck\": \"%s\" }", username, password1, password2);
         
-        Assertions.assertThrows(Exception.class, () -> {
         given()
                 .contentType("application/json")
                 .body(jsonRequest)
                 .when().post("/register").then()
                 .statusCode(400)
                 .body("message", equalTo(messages.passwordsNotMatch));
-        });
     }
     
 }
