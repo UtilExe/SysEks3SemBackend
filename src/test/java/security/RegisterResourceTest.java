@@ -134,7 +134,7 @@ public class RegisterResourceTest {
                 + "\"password\": \"%s\","
                 + "\"passwordCheck\": \"%s\" }", username, password1, password2);
         
-        Assertions.assertThrows(API_Exception.class, () -> {
+        Assertions.assertThrows(Exception.class, () -> {
         given()
                 .contentType("application/json")
                 .body(jsonRequest)

@@ -131,7 +131,7 @@ public class SongResourceTest {
         
         login("user", "test");
         
-        Assertions.assertThrows(API_Exception.class, () -> {
+        Assertions.assertThrows(Exception.class, () -> {
             given()
                     .contentType("application/json")
                     .body(jsonRequest)
