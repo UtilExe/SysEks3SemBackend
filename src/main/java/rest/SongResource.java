@@ -131,7 +131,7 @@ public class SongResource {
         CombinedDTO combinedDTO = new CombinedDTO(ITunes, lyrics, similar);
         
         if(combinedDTO.isEmpty()) {
-            throw new API_Exception(messages.songNotFound, 404);
+            throw new API_Exception(messages.songNotFound, 204);
         } else {
             String combinedJSON = gson.toJson(combinedDTO);
 
