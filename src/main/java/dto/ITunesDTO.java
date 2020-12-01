@@ -23,7 +23,7 @@ public class ITunesDTO {
     }
     
     public boolean responseEqualsNull() {
-        if (this.results.equals(new ArrayList())) {
+        if (this.results.equals(new ArrayList<String>())) {
             return true;
         }
         return false;
