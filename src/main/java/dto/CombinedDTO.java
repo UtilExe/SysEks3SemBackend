@@ -12,7 +12,7 @@ public class CombinedDTO {
     }
     
     public boolean isEmpty() {
-        if(this.itunes.responseEqualsNull() && this.lyrics.responseEqualsNull() && this.similar.responseEqualsNull()) {
+        if(this.itunes.responseEqualsNull() && this.lyrics.responseEqualsNull()) {
             return true;
         } else {
             return false;
