@@ -18,6 +18,8 @@ public class Messages {
     public final String tokenCannotExtractUser = "User could not be extracted from token";
     public final String songNotFound = "We couldn’t find information about that song...";
     public final String serverIsUp = "Server is up";
+    public final String usernameDoesntExist = "The username doesn't exist! Can't delete user";
+    public final String deletedAccount = "The user has been deleted";
 
     public Messages() {
     }

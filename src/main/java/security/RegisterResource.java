@@ -29,6 +29,7 @@ import errorhandling.GenericExceptionMapper;
 import javax.persistence.EntityManagerFactory;
 import utils.EMF_Creator;
 import errorhandling.Messages;
+import javax.persistence.NoResultException;
 import javax.ws.rs.GET;
 
 @Path("register")

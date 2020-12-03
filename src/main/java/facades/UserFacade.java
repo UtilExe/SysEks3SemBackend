@@ -2,16 +2,19 @@ package facades;
 
 import entities.Role;
 import entities.User;
+import errorhandling.API_Exception;
 import errorhandling.Messages;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import security.errorhandling.AuthenticationException;
 
 public class UserFacade {
 
     private static EntityManagerFactory emf;
     private static UserFacade instance;
-    
+
     private static final Messages messages = new Messages();
 
     private UserFacade() {
@@ -71,4 +74,24 @@ public class UserFacade {
         return user;
     }
 
+    public User deleteUser(String userName) throws AuthenticationException, API_Exception {
+        EntityManager em = emf.createEntityManager();
+        User identifyUser = null;
+        try {
+            em.getTransaction().begin();
+            identifyUser = em.createQuery(
+                    "SELECT u from User u WHERE u.userName = :userName", User.class).
+                    setParameter("userName", userName).getSingleResult();
+
+            if (identifyUser == null) {
+                throw new API_Exception(messages.usernameDoesntExist, 400);
+            }
+            em.remove(identifyUser);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return identifyUser;
+    }
+    
 }
