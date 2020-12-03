@@ -80,10 +80,10 @@ public class UserFacade {
 
     public UserDTO deleteUser(String userName) throws AuthenticationException, API_Exception {
         EntityManager em = emf.createEntityManager();
-        UserDTO identifyUser = null;
+        User identifyUser = null;
         try {
             em.getTransaction().begin();
-            identifyUser = em.find(UserDTO.class, userName);
+            identifyUser = em.find(User.class, userName);
 
             if (identifyUser == null) {
                 throw new NoResultException(messages.usernameDoesntExist);
@@ -93,7 +93,7 @@ public class UserFacade {
         } finally {
             em.close();
         }
-        return identifyUser;
+        return new UserDTO(identifyUser);
     }
 
     public List<UserDTO> getAllUsers() throws ObjectNotFoundException {

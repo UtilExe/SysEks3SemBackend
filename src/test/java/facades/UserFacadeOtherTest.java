@@ -4,8 +4,15 @@ import dto.UserDTO;
 import entities.Role;
 import entities.Song;
 import entities.User;
+import errorhandling.API_Exception;
+import java.util.ArrayList;
+import java.util.List;
+import javassist.tools.rmi.ObjectNotFoundException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,16 +24,15 @@ import org.mindrot.jbcrypt.BCrypt;
 import security.errorhandling.AuthenticationException;
 import utils.EMF_Creator;
 
-public class UserFacadeTest {
+public class UserFacadeOtherTest {
 
     private static EntityManagerFactory emf;
     private static UserFacade facade;
-    private static final User user = new User("user", "password");
 
     /*
     String name, String artist, int releaseYear, String album
      */
-    public UserFacadeTest() {
+    public UserFacadeOtherTest() {
     }
 
     @BeforeAll
@@ -73,12 +79,29 @@ public class UserFacadeTest {
     }
 
     @Test
-    public void getVeryfiedUserTest() throws AuthenticationException {
-        
-        User expected = user;
-        User result = facade.getVeryfiedUser(user.getUserName(), "password");
+    public void createAccountTesting() throws AuthenticationException {
 
-        assertEquals(expected.getUserPass(), result.getUserPass());
+        String username = "Hans";
+        String password = "Yes123";
+        User userAccTest = new User(username, password);
+        UserDTO realAcc = facade.createUser(username, password, password);
+
+        assertEquals(userAccTest.getUserName(), realAcc.getUsername());
+    }
+    
+    @Test
+    public void getAllUsersTest() throws ObjectNotFoundException {
+        List<UserDTO> userList = facade.getAllUsers();
+        
+        assertThat(userList, hasSize(3));
+    }
+    
+    @Test
+    public void deleteUserTest() throws AuthenticationException, API_Exception, ObjectNotFoundException {
+      facade.deleteUser("user");
+      
+      List<UserDTO> userList = facade.getAllUsers();
+      assertThat(userList, hasSize(2));
     }
 
 }
