@@ -100,14 +100,20 @@ public class UserFacade {
     
      public List<UserDTO>getAllUsers() throws ObjectNotFoundException {
         EntityManager em = emf.createEntityManager();
-        List<UserDTO> allUsers = new ArrayList();
+        List<User> allUsers = new ArrayList();
+        List<UserDTO> allUsersDTO = new ArrayList();
        
         try {
             allUsers = em.createNamedQuery("User.getAllRows").getResultList();
             if(allUsers.isEmpty() || allUsers == null) {
                 throw new ObjectNotFoundException("No persons found.");
             }
-            return allUsers;
+            
+            for(User user : allUsers) {
+                allUsersDTO.add(new UserDTO(user));
+            }
+            
+            return allUsersDTO;
         } finally {
             em.close();
         }
