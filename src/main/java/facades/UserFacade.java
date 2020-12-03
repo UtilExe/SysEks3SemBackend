@@ -51,7 +51,7 @@ public class UserFacade {
         return user;
     }
 
-    public User createUser(String username, String password, String passwordCheck) throws AuthenticationException {
+    public UserDTO createUser(String username, String password, String passwordCheck) throws AuthenticationException {
         EntityManager em = emf.createEntityManager();
         User user;
         try {
@@ -75,15 +75,15 @@ public class UserFacade {
             em.close();
         }
 
-        return user;
+        return new UserDTO(user);
     }
 
-     public User deleteUser(String userName) throws AuthenticationException, API_Exception {
+    public UserDTO deleteUser(String userName) throws AuthenticationException, API_Exception {
         EntityManager em = emf.createEntityManager();
-        User identifyUser = null;
+        UserDTO identifyUser = null;
         try {
             em.getTransaction().begin();
-            identifyUser = em.find(User.class, userName);
+            identifyUser = em.find(UserDTO.class, userName);
 
             if (identifyUser == null) {
                 throw new NoResultException(messages.usernameDoesntExist);
@@ -95,26 +95,26 @@ public class UserFacade {
         }
         return identifyUser;
     }
-    
-     public List<UserDTO>getAllUsers() throws ObjectNotFoundException {
+
+    public List<UserDTO> getAllUsers() throws ObjectNotFoundException {
         EntityManager em = emf.createEntityManager();
         List<User> allUsers = new ArrayList();
         List<UserDTO> allUsersDTO = new ArrayList();
-       
+
         try {
             allUsers = em.createNamedQuery("User.getAllRows").getResultList();
-            if(allUsers.isEmpty() || allUsers == null) {
+            if (allUsers.isEmpty() || allUsers == null) {
                 throw new ObjectNotFoundException("No persons found.");
             }
-            
-            for(User user : allUsers) {
+
+            for (User user : allUsers) {
                 allUsersDTO.add(new UserDTO(user));
             }
-            
+
             return allUsersDTO;
         } finally {
             em.close();
         }
     }
-    
+
 }

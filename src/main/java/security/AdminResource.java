@@ -12,6 +12,7 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import dto.UserDTO;
 import facades.UserFacade;
 import java.util.Date;
 import java.util.List;
@@ -64,7 +65,7 @@ public class AdminResource {
             throw new API_Exception(messages.malformedJson, 400, e);
         }
         try {
-            User user = USER_FACADE.deleteUser(username);
+            UserDTO user = USER_FACADE.deleteUser(username);
             JsonObject responseJson = new JsonObject();
             responseJson.addProperty("username", username);
             responseJson.addProperty("message", messages.deletedAccount);

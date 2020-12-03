@@ -11,6 +11,7 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import dto.UserDTO;
 import facades.UserFacade;
 import java.util.Date;
 import java.util.List;
@@ -64,7 +65,7 @@ public class RegisterResource {
         }
 
         try {
-            User user = USER_FACADE.createUser(username, password, passwordCheck);
+            UserDTO user = USER_FACADE.createUser(username, password, passwordCheck);
             JsonObject responseJson = new JsonObject();
             responseJson.addProperty("username", username);
           /*  responseJson.addProperty("password", password);
