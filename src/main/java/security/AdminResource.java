@@ -76,7 +76,7 @@ public class AdminResource {
             } else if (e instanceof UnsupportedOperationException) {
                 throw new API_Exception(messages.passwordsNotMatch, 400, e);
             } else if (e instanceof NoResultException) {
-                throw new API_Exception("No user exists", 400, e);
+                throw new API_Exception(messages.usernameDoesntExist, 400, e);
             } else {
                 throw new API_Exception(messages.unknownError, 400, e);
             }

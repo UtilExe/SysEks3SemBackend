@@ -78,17 +78,15 @@ public class UserFacade {
         return user;
     }
 
-    public User deleteUser(String userName) throws AuthenticationException, API_Exception {
+     public User deleteUser(String userName) throws AuthenticationException, API_Exception {
         EntityManager em = emf.createEntityManager();
         User identifyUser = null;
         try {
             em.getTransaction().begin();
-            identifyUser = em.createQuery(
-                    "SELECT u from User u WHERE u.userName = :userName", User.class).
-                    setParameter("userName", userName).getSingleResult();
+            identifyUser = em.find(User.class, userName);
 
             if (identifyUser == null) {
-                throw new API_Exception(messages.usernameDoesntExist, 400);
+                throw new NoResultException(messages.usernameDoesntExist);
             }
             em.remove(identifyUser);
             em.getTransaction().commit();
