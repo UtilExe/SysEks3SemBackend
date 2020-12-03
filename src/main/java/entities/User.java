@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -20,7 +21,9 @@ import javax.validation.constraints.Size;
 import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
-@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User")
+@NamedQueries({
+@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User"),
+@NamedQuery(name = "User.getAllRows", query = "SELECT u FROM User u")})
 @Table(name = "users")
 public class User implements Serializable {
 

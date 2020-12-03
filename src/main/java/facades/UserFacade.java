@@ -1,9 +1,13 @@
 package facades;
 
+import dto.UserDTO;
 import entities.Role;
 import entities.User;
 import errorhandling.API_Exception;
 import errorhandling.Messages;
+import java.util.ArrayList;
+import java.util.List;
+import javassist.tools.rmi.ObjectNotFoundException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -92,6 +96,21 @@ public class UserFacade {
             em.close();
         }
         return identifyUser;
+    }
+    
+     public List<UserDTO>getAllUsers() throws ObjectNotFoundException {
+        EntityManager em = emf.createEntityManager();
+        List<UserDTO> allUsers = new ArrayList();
+       
+        try {
+            allUsers = em.createNamedQuery("User.getAllRows").getResultList();
+            if(allUsers.isEmpty() || allUsers == null) {
+                throw new ObjectNotFoundException("No persons found.");
+            }
+            return allUsers;
+        } finally {
+            em.close();
+        }
     }
     
 }

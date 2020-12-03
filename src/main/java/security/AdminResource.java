@@ -1,6 +1,7 @@
 package security;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.MalformedJsonException;
@@ -29,6 +30,7 @@ import errorhandling.GenericExceptionMapper;
 import javax.persistence.EntityManagerFactory;
 import utils.EMF_Creator;
 import errorhandling.Messages;
+import javassist.tools.rmi.ObjectNotFoundException;
 import javax.persistence.NoResultException;
 import javax.ws.rs.GET;
 
@@ -38,6 +40,7 @@ public class AdminResource {
     public static final int TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30 min
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     public static final UserFacade USER_FACADE = UserFacade.getUserFacade(EMF);
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private static final Messages messages = new Messages();
 
@@ -78,6 +81,13 @@ public class AdminResource {
                 throw new API_Exception(messages.unknownError, 400, e);
             }
         }
+    }
+    
+    @Path("all")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAllUsers() throws ObjectNotFoundException {
+        return gson.toJson(USER_FACADE.getAllUsers());
     }
 
 }
