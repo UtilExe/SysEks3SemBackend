@@ -123,6 +123,10 @@ public class RegisterResourceTest {
                 .body("message", equalTo(messages.accountCreated));
     }
     
+    /* 
+    Test is disabled because the thrown exception is marked as an error when
+    Travis CI deploys but not when tested locally. 
+    */
     @Disabled
     @Test
     public void registerTestPasswordNotMatch() {
