@@ -43,7 +43,7 @@ public class JWTAuthenticationFilter implements ContainerRequestFilter {
 
      String token = request.getHeaderString("x-access-token");//
      if (token == null) {
-       request.abortWith(errorhandling.GenericExceptionMapper.makeErrRes(messages.notAuthenticaded, 403));
+       request.abortWith(errorhandling.GenericExceptionMapper.makeErrRes(messages.NOT_AUTHENTICADED, 403));
        return;
      }
      try {
@@ -52,7 +52,7 @@ public class JWTAuthenticationFilter implements ContainerRequestFilter {
        request.setSecurityContext(new JWTSecurityContext(user, request));
      } catch (AuthenticationException | ParseException | JOSEException ex) {
        Logger.getLogger(JWTAuthenticationFilter.class.getName()).log(Level.SEVERE, null, ex);
-       request.abortWith(errorhandling.GenericExceptionMapper.makeErrRes(messages.tokenInvalidOrExpired, 403));
+       request.abortWith(errorhandling.GenericExceptionMapper.makeErrRes(messages.TOKEN_INVALID_OR_EXPIRED, 403));
      }
    }
  }
@@ -80,7 +80,7 @@ public class JWTAuthenticationFilter implements ContainerRequestFilter {
 
    if (signedJWT.verify(verifier)) {
      if (new Date().getTime() > signedJWT.getJWTClaimsSet().getExpirationTime().getTime()) {
-       throw new AuthenticationException(messages.tokenExpired);
+       throw new AuthenticationException(messages.TOKEN_EXPIRED);
      }
      String roles = signedJWT.getJWTClaimsSet().getClaim("roles").toString();
      String username = signedJWT.getJWTClaimsSet().getClaim("username").toString();
@@ -90,7 +90,7 @@ public class JWTAuthenticationFilter implements ContainerRequestFilter {
      return new UserPrincipal(username, rolesArray);
 //     return new UserPrincipal(username, roles);
    } else {
-     throw new JOSEException(messages.tokenCannotExtractUser);
+     throw new JOSEException(messages.TOKEN_CANNOT_EXTRACT_USER);
    }
  }
 }

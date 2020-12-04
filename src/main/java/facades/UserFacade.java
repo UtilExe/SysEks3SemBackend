@@ -43,7 +43,7 @@ public class UserFacade {
         try {
             user = em.find(User.class, username);
             if (user == null || !user.verifyPassword(password)) {
-                throw new AuthenticationException(messages.invalidUsernameOrPwd);
+                throw new AuthenticationException(messages.INVALID_USERNAME_OR_PWD);
             }
         } finally {
             em.close();
@@ -57,7 +57,7 @@ public class UserFacade {
         try {
             user = em.find(User.class, username);
             if (user != null) {
-                throw new AuthenticationException(messages.usernameAlreadyExists);
+                throw new AuthenticationException(messages.USERNAME_ALREADY_EXISTS);
             } else {
                 em.getTransaction().begin();
                 if (password.equals(passwordCheck)) {
@@ -68,7 +68,7 @@ public class UserFacade {
                     em.persist(user);
                     em.getTransaction().commit();
                 } else {
-                    throw new UnsupportedOperationException(messages.passwordsNotMatch);
+                    throw new UnsupportedOperationException(messages.PASSWORDS_DONT_MATCH);
                 }
             }
         } finally {
@@ -86,7 +86,7 @@ public class UserFacade {
             identifyUser = em.find(User.class, userName);
 
             if (identifyUser == null) {
-                throw new NoResultException(messages.usernameDoesntExist);
+                throw new NoResultException(messages.USERNAME_DOESNT_EXIST);
             }
             em.remove(identifyUser);
             em.getTransaction().commit();

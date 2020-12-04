@@ -48,7 +48,7 @@ public class AdminResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String isUp() {
-        return String.format("{\"message\":\"%s\"}", messages.serverIsUp);
+        return String.format("{\"message\":\"%s\"}", messages.SERVER_IS_UP);
     }
 
     @POST
@@ -62,24 +62,24 @@ public class AdminResource {
             JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
             username = json.get("username").getAsString();
         } catch (Exception e) {
-            throw new API_Exception(messages.malformedJson, 400, e);
+            throw new API_Exception(messages.MALFORMED_JSON, 400, e);
         }
         try {
             UserDTO user = USER_FACADE.deleteUser(username);
             JsonObject responseJson = new JsonObject();
             responseJson.addProperty("username", username);
-            responseJson.addProperty("message", messages.deletedAccount);
+            responseJson.addProperty("message", messages.DELETED_ACCOUNT_SUCCESS);
             return Response.ok(new Gson().toJson(responseJson)).build();
 
         } catch (Exception e) {
             if (e instanceof AuthenticationException) {
-                throw new API_Exception(messages.usernameAlreadyExists, 400, e);
+                throw new API_Exception(messages.USERNAME_ALREADY_EXISTS, 400, e);
             } else if (e instanceof UnsupportedOperationException) {
-                throw new API_Exception(messages.passwordsNotMatch, 400, e);
+                throw new API_Exception(messages.PASSWORDS_DONT_MATCH, 400, e);
             } else if (e instanceof NoResultException) {
-                throw new API_Exception(messages.usernameDoesntExist, 400, e);
+                throw new API_Exception(messages.USERNAME_DOESNT_EXIST, 400, e);
             } else {
-                throw new API_Exception(messages.unknownError, 400, e);
+                throw new API_Exception(messages.UNKNOWN_ERROR, 400, e);
             }
         }
     }

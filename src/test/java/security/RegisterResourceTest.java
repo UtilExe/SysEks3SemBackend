@@ -120,7 +120,7 @@ public class RegisterResourceTest {
                 .when().post("/register").then()
                 .statusCode(200)
                 .body("username", equalTo("test@user.dk"))
-                .body("message", equalTo(messages.accountCreated));
+                .body("message", equalTo(messages.ACCOUNT_CREATED));
     }
     
     /* 
@@ -144,7 +144,7 @@ public class RegisterResourceTest {
                 .body(jsonRequest)
                 .when().post("/register").then()
                 .statusCode(400)
-                .body("message", equalTo(messages.passwordsNotMatch));
+                .body("message", equalTo(messages.PASSWORDS_DONT_MATCH));
     }
     
 }

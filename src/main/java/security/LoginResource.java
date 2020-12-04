@@ -42,7 +42,7 @@ public class LoginResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String isUp() {
-        return String.format("{\"message\":\"%s\"}", messages.serverIsUp);
+        return String.format("{\"message\":\"%s\"}", messages.SERVER_IS_UP);
     }
 
     @POST
@@ -56,7 +56,7 @@ public class LoginResource {
             username = json.get("username").getAsString();
             password = json.get("password").getAsString();
         } catch (Exception e) {
-           throw new API_Exception(messages.malformedJson,400,e);
+           throw new API_Exception(messages.MALFORMED_JSON,400,e);
         }
 
         try {
@@ -73,7 +73,7 @@ public class LoginResource {
             }
             Logger.getLogger(GenericExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        throw new AuthenticationException(messages.invalidUsernameOrPwd);
+        throw new AuthenticationException(messages.INVALID_USERNAME_OR_PWD);
     }
 
     private String createToken(String userName, List<String> roles) throws JOSEException {

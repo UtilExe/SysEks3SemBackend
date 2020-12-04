@@ -45,7 +45,7 @@ public class RegisterResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String isUp() {
-        return String.format("{\"message\":\"%s\"}", messages.serverIsUp);
+        return String.format("{\"message\":\"%s\"}", messages.SERVER_IS_UP);
     }
     
     @POST
@@ -61,7 +61,7 @@ public class RegisterResource {
             password = json.get("password").getAsString();
             passwordCheck = json.get("passwordCheck").getAsString();
         } catch (Exception e) {
-            throw new API_Exception(messages.malformedJson, 400, e);
+            throw new API_Exception(messages.MALFORMED_JSON, 400, e);
         }
 
         try {
@@ -70,16 +70,16 @@ public class RegisterResource {
             responseJson.addProperty("username", username);
           /*  responseJson.addProperty("password", password);
             responseJson.addProperty("passwordCheck", passwordCheck);*/
-            responseJson.addProperty("message", messages.accountCreated);
+            responseJson.addProperty("message", messages.ACCOUNT_CREATED);
             return Response.ok(new Gson().toJson(responseJson)).build();
 
         } catch (Exception e) {
             if (e instanceof AuthenticationException) {
-                throw new API_Exception(messages.usernameAlreadyExists, 400, e);
+                throw new API_Exception(messages.USERNAME_ALREADY_EXISTS, 400, e);
             } else if(e instanceof UnsupportedOperationException) {
-                throw new API_Exception(messages.passwordsNotMatch, 400, e);
+                throw new API_Exception(messages.PASSWORDS_DONT_MATCH, 400, e);
             } else {
-                throw new API_Exception(messages.unknownError, 400, e);
+                throw new API_Exception(messages.UNKNOWN_ERROR, 400, e);
             }
         }
     }

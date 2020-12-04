@@ -142,7 +142,7 @@ public class SongResourceTest {
                 .header("x-access-token", securityToken)
                 .when().post("/song/search").then()
                 .statusCode(404)
-                .body("message", equalTo(messages.songNotFound));
+                .body("message", equalTo(messages.SONG_NOT_FOUND));
     }
     
 }

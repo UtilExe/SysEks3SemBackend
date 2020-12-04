@@ -60,7 +60,7 @@ public class SongResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String isUp() {
-        return String.format("{\"message\":\"%s\"}", MESSAGES.serverIsUp);
+        return String.format("{\"message\":\"%s\"}", MESSAGES.SERVER_IS_UP);
     }
     
     @Path("search")
@@ -125,7 +125,7 @@ public class SongResource {
         CombinedDTO combinedDTO = new CombinedDTO(ITunes, lyrics, similar);
         
         if(combinedDTO.isEmpty()) {
-            throw new API_Exception(MESSAGES.songNotFound, 404);
+            throw new API_Exception(MESSAGES.SONG_NOT_FOUND, 404);
         } else {
             String combinedJSON = GSON.toJson(combinedDTO);
 

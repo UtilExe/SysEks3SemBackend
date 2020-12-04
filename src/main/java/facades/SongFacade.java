@@ -46,7 +46,7 @@ public class SongFacade {
         
         Song song = new Song(songName, artistName, releaseYear, albumName);
         if(song.isMissingSongName()) {
-            throw new API_Exception(MESSAGES.cannotSaveSongMissingName, 424);
+            throw new API_Exception(MESSAGES.CANNOT_SAVE_SONG_MISSING_NAME, 424);
         } else {
             User user = em.find(User.class, userPrincipal.getName());
             user.addSong(song);
