@@ -115,7 +115,6 @@ public class SongFacadeTest {
         assertEquals(expected.getArtist(), result.getArtist());
     }
     
-    @Disabled
     @Test
     public void showSavedSongsTest() throws API_Exception, ObjectNotFoundException {
         Song song1 = new Song("Levels", "Avicii", 2011, "");
@@ -129,9 +128,9 @@ public class SongFacadeTest {
         
         List<SongDTO> result = facade.showSavedSongs(user.getUserName());
         
-        assertTrue(result.contains(new SongDTO(song1)));
-        assertTrue(result.contains(new SongDTO(song2)));
-        assertTrue(result.contains(new SongDTO(song3)));
+        assertTrue(result.toString().contains(expected.get(0).toString()));
+        assertTrue(result.toString().contains(expected.get(1).toString()));
+        assertTrue(result.toString().contains(expected.get(2).toString()));
     }
     
     

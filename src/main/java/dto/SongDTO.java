@@ -46,4 +46,11 @@ public class SongDTO {
     public void setAlbum(String album) {
         this.album = album;
     }
+
+    @Override
+    public String toString() {
+        return "SongDTO{" + "song=" + song + ", artist=" + artist + ", releaseYear=" + releaseYear + ", album=" + album + '}';
+    }
+    
+    
 }
