@@ -117,4 +117,31 @@ public class UserFacade {
         }
     }
 
+    public UserDTO editUser(String username, String editedUsername, String editedPassword) {
+        EntityManager em = emf.createEntityManager();
+        User user = null;
+        try {
+            em.getTransaction().begin();
+            user = em.find(User.class, username);
+
+            if (user == null) {
+                throw new NoResultException(MESSAGES.USERNAME_DOESNT_EXIST);
+            }
+            if (!editedUsername.isEmpty()) {
+                user.setUserName(editedUsername);
+            }
+            if (!editedPassword.isEmpty()) {
+                user.setUserPass(editedPassword);
+            }
+            
+            em.getTransaction().commit();
+
+        } finally {
+            em.close();
+        }
+
+        return new UserDTO(user);
+
+    }
+
 }
