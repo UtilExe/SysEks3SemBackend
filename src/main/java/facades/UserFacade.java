@@ -19,7 +19,7 @@ public class UserFacade {
     private static EntityManagerFactory emf;
     private static UserFacade instance;
 
-    private static final Messages messages = new Messages();
+    private static final Messages MESSAGES = new Messages();
 
     private UserFacade() {
     }
@@ -43,7 +43,7 @@ public class UserFacade {
         try {
             user = em.find(User.class, username);
             if (user == null || !user.verifyPassword(password)) {
-                throw new AuthenticationException(messages.INVALID_USERNAME_OR_PWD);
+                throw new AuthenticationException(MESSAGES.INVALID_USERNAME_OR_PWD);
             }
         } finally {
             em.close();
@@ -57,7 +57,7 @@ public class UserFacade {
         try {
             user = em.find(User.class, username);
             if (user != null) {
-                throw new AuthenticationException(messages.USERNAME_ALREADY_EXISTS);
+                throw new AuthenticationException(MESSAGES.USERNAME_ALREADY_EXISTS);
             } else {
                 em.getTransaction().begin();
                 if (password.equals(passwordCheck)) {
@@ -68,7 +68,7 @@ public class UserFacade {
                     em.persist(user);
                     em.getTransaction().commit();
                 } else {
-                    throw new UnsupportedOperationException(messages.PASSWORDS_DONT_MATCH);
+                    throw new UnsupportedOperationException(MESSAGES.PASSWORDS_DONT_MATCH);
                 }
             }
         } finally {
@@ -86,7 +86,7 @@ public class UserFacade {
             identifyUser = em.find(User.class, userName);
 
             if (identifyUser == null) {
-                throw new NoResultException(messages.USERNAME_DOESNT_EXIST);
+                throw new NoResultException(MESSAGES.USERNAME_DOESNT_EXIST);
             }
             em.remove(identifyUser);
             em.getTransaction().commit();
@@ -96,7 +96,7 @@ public class UserFacade {
         return new UserDTO(identifyUser);
     }
 
-    public List<UserDTO> getAllUsers() throws ObjectNotFoundException {
+    public List<UserDTO> getAllUsers() throws API_Exception {
         EntityManager em = emf.createEntityManager();
         List<User> allUsers = new ArrayList();
         List<UserDTO> allUsersDTO = new ArrayList();
@@ -104,7 +104,7 @@ public class UserFacade {
         try {
             allUsers = em.createNamedQuery("User.getAllRows").getResultList();
             if (allUsers.isEmpty() || allUsers == null) {
-                throw new ObjectNotFoundException("No persons found.");
+                throw new API_Exception(MESSAGES.NO_USERS_FOUND, 404);
             }
 
             for (User user : allUsers) {

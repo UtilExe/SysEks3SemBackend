@@ -21,6 +21,8 @@ public class Messages {
     public final String USERNAME_DOESNT_EXIST = "The username doesn't exist! Can't delete user";
     public final String DELETED_ACCOUNT_SUCCESS = "The user has been deleted";
     public final String CANNOT_SAVE_SONG_MISSING_NAME = "We couldn't save the song - song name missing";
+    public final String NO_USERS_FOUND = "No users found";
+    public final String NO_SONGS_FOUND = "No songs found";
 
     public Messages() {
     }

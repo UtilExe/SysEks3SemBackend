@@ -8,8 +8,12 @@ import entities.User;
 import errorhandling.API_Exception;
 import errorhandling.Messages;
 import java.text.ParseException;
+import javassist.tools.rmi.ObjectNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import security.JWTAuthenticationFilter;
 import security.UserPrincipal;
 import security.errorhandling.AuthenticationException;
@@ -57,5 +61,30 @@ public class SongFacade {
             return new SongDTO(song);
         }
     }
+    
+    public List<SongDTO> showSavedSongs(String username) throws API_Exception {
+        EntityManager em = emf.createEntityManager();
+        List<Song> allSongs = new ArrayList();
+        List<SongDTO> allSongsDTO = new ArrayList();
+
+        try {
+            TypedQuery<Song> query = em.createQuery("SELECT s FROM Song s, User u WHERE u.userName = :username", Song.class)
+                    .setParameter("username", username);
+            allSongs = query.getResultList();
+            
+            if (allSongs.isEmpty() || allSongs == null) {
+                throw new API_Exception(MESSAGES.NO_SONGS_FOUND, 404);
+            }
+
+            for (Song song : allSongs) {
+                allSongsDTO.add(new SongDTO(song));
+            }
+
+            return allSongsDTO;
+        } finally {
+            em.close();
+        }
+    }
+    
     
 }

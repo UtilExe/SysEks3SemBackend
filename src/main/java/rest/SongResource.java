@@ -22,6 +22,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import javassist.tools.rmi.ObjectNotFoundException;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -89,6 +90,19 @@ public class SongResource {
         SONG_FACADE.bookmarkSong(track.getSong(), track.getArtist(), track.getReleaseYear(), track.getAlbum(), username);
         
         return GSON.toJson(track);
+    }
+    
+    @Path("user/all")
+    @GET
+    @RolesAllowed({"user", "admin"})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public String showSavedSongs(@HeaderParam("x-access-token") String token) throws InterruptedException, ExecutionException, TimeoutException, API_Exception, ParseException, JOSEException, AuthenticationException, ObjectNotFoundException {
+        JWTAuthenticationFilter jwtFilter = new JWTAuthenticationFilter();
+        UserPrincipal userPrincipal = jwtFilter.getUserPrincipalFromTokenIfValid(token);
+        String username = userPrincipal.getName();
+        
+        return GSON.toJson(SONG_FACADE.showSavedSongs(username));
     }
 
     public static String responseWithParallelFetch(ExecutorService threadPool, SongDTO track) throws InterruptedException, ExecutionException, TimeoutException, API_Exception {
