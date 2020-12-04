@@ -64,7 +64,6 @@ public class UserFacade {
                     user = new User(username, password);
                     Role userRole = new Role("user");
                     user.addRole(userRole);
-                    // em.persist(userRole);
                     em.persist(user);
                     em.getTransaction().commit();
                 } else {
