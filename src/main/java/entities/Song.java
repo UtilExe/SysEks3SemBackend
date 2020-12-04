@@ -11,11 +11,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.Size;
 
 @Entity
-@NamedQuery(name = "Song.deleteAllRows", query = "DELETE from Song")
+@NamedQueries({
+@NamedQuery(name = "Song.deleteAllRows", query = "DELETE from Song"),
+@NamedQuery(name = "Song.getAllRows", query = "SELECT s FROM Song s")})
 public class Song implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -8,6 +8,9 @@ import entities.User;
 import errorhandling.API_Exception;
 import errorhandling.Messages;
 import java.text.ParseException;
+import javassist.tools.rmi.ObjectNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import security.JWTAuthenticationFilter;
@@ -57,5 +60,27 @@ public class SongFacade {
             return new SongDTO(song);
         }
     }
+    
+    public List<SongDTO> showSavedSongs(String username) throws ObjectNotFoundException {
+        EntityManager em = emf.createEntityManager();
+        List<Song> allSongs = new ArrayList();
+        List<SongDTO> allSongsDTO = new ArrayList();
+
+        try {
+            allSongs = em.createNamedQuery("Song.getAllRows").getResultList();
+            if (allSongs.isEmpty() || allSongs == null) {
+                throw new ObjectNotFoundException(MESSAGES.NO_PERSONS_FOUND);
+            }
+
+            for (Song song : allSongs) {
+                allSongsDTO.add(new SongDTO(song));
+            }
+
+            return allSongsDTO;
+        } finally {
+            em.close();
+        }
+    }
+    
     
 }
