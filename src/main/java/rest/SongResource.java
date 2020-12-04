@@ -12,6 +12,7 @@ import entities.Song;
 import entities.User;
 import errorhandling.API_Exception;
 import errorhandling.Messages;
+import facades.SongFacade;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.concurrent.Callable;
@@ -43,21 +44,23 @@ import utils.Keys;
 @Path("song")
 public class SongResource {
     
-    private static final EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final String iTunesURL = "https://itunes.apple.com/search?country=DK&media=music&entity=song&limit=3&";
-    private static final String lyricsURL = "https://api.lyrics.ovh/v1/";
-    private static final String similarURL = "https://tastedive.com/api/similar";
-    private static final ExecutorService es = Executors.newCachedThreadPool();
+    private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final String ITUNES_URL = "https://itunes.apple.com/search?country=DK&media=music&entity=song&limit=3&";
+    private static final String LYRICS_URL = "https://api.lyrics.ovh/v1/";
+    private static final String SIMILAR_URL = "https://tastedive.com/api/similar";
+    private static final ExecutorService ES = Executors.newCachedThreadPool();
     private static Helper helper = new Helper();
     private static SecurityContext sc;
     
-    private static final Messages messages = new Messages();
+    public static final SongFacade SONG_FACADE = SongFacade.getSongFacade(EMF);
+    
+    private static final Messages MESSAGES = new Messages();
     
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String isUp() {
-        return String.format("{\"message\":\"%s\"}", messages.serverIsUp);
+        return String.format("{\"message\":\"%s\"}", MESSAGES.serverIsUp);
     }
     
     @Path("search")
@@ -66,10 +69,10 @@ public class SongResource {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public String getSong(String song) throws InterruptedException, ExecutionException, TimeoutException, API_Exception {
-        SongDTO track = gson.fromJson(song, SongDTO.class);
+        SongDTO track = GSON.fromJson(song, SongDTO.class);
         track.setSong(helper.fixInput(track.getSong()));
         track.setArtist(helper.fixInput(track.getArtist()));
-        return responseWithParallelFetch(es, track);
+        return responseWithParallelFetch(ES, track);
     }
     
     @Path("bookmark")
@@ -78,18 +81,19 @@ public class SongResource {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public String bookmarkSong(@HeaderParam("x-access-token") String token, String inputSong) throws InterruptedException, ExecutionException, TimeoutException, API_Exception, ParseException, JOSEException, AuthenticationException {
-        JWTAuthenticationFilter jwtFilter = new JWTAuthenticationFilter();
-        UserPrincipal userPrincipal = jwtFilter.getUserPrincipalFromTokenIfValid(token);
-        SongDTO track = gson.fromJson(inputSong, SongDTO.class);
-        EntityManager em = emf.createEntityManager();
+        /*JWTAuthenticationFilter jwtFilter = new JWTAuthenticationFilter();
+        UserPrincipal userPrincipal = jwtFilter.getUserPrincipalFromTokenIfValid(token);*/
+        SongDTO track = GSON.fromJson(inputSong, SongDTO.class);
+        /*EntityManager em = emf.createEntityManager();
         Song song = new Song(track.getSong(), track.getArtist(), track.getReleaseYear(), track.getAlbum());
         User user = em.find(User.class, userPrincipal.getName());
         user.addSong(song);
         song.addUser(user);
         em.getTransaction().begin();
         em.persist(song);
-        em.getTransaction().commit();
-        return gson.toJson(track);
+        em.getTransaction().commit();*/
+        SONG_FACADE.bookmarkSong(track.getSong(), track.getArtist(), track.getReleaseYear(), track.getAlbum(), token);
+        return GSON.toJson(track);
     }
 
     public static String responseWithParallelFetch(ExecutorService threadPool, SongDTO track) throws InterruptedException, ExecutionException, TimeoutException, API_Exception {
@@ -98,24 +102,24 @@ public class SongResource {
         Callable<ITunesDTO> itunesTask = new Callable<ITunesDTO>() {
             @Override
             public ITunesDTO call() throws IOException {
-                String itunes = HttpUtils.fetchData(iTunesURL + "term=" + song + "&limit=1");
-                ITunesDTO iTunesDTO = gson.fromJson(itunes, ITunesDTO.class);
+                String itunes = HttpUtils.fetchData(ITUNES_URL + "term=" + song + "&limit=1");
+                ITunesDTO iTunesDTO = GSON.fromJson(itunes, ITunesDTO.class);
                 return iTunesDTO;
             }
         };
         Callable<LyricsDTO> lyricTask = new Callable<LyricsDTO>() {
             @Override
             public LyricsDTO call() throws IOException {
-                String lyric = HttpUtils.fetchData(lyricsURL + artist + "/" + song);
-                LyricsDTO lyricsDTO = gson.fromJson(lyric, LyricsDTO.class);
+                String lyric = HttpUtils.fetchData(LYRICS_URL + artist + "/" + song);
+                LyricsDTO lyricsDTO = GSON.fromJson(lyric, LyricsDTO.class);
                 return lyricsDTO;
             }
         };
         Callable<SimilarDTO> similarTask = new Callable<SimilarDTO>() {
             @Override
             public SimilarDTO call() throws IOException {
-                String similar = HttpUtils.fetchData(similarURL+ "?type=music&info=1&q="+ song + "&k=" + Keys.tastediveApi + "&limit=1");
-                SimilarDTO similarDTO = gson.fromJson(similar, SimilarDTO.class);
+                String similar = HttpUtils.fetchData(SIMILAR_URL+ "?type=music&info=1&q="+ song + "&k=" + Keys.tastediveApi + "&limit=1");
+                SimilarDTO similarDTO = GSON.fromJson(similar, SimilarDTO.class);
                 return similarDTO;
             }
         };
@@ -131,9 +135,9 @@ public class SongResource {
         CombinedDTO combinedDTO = new CombinedDTO(ITunes, lyrics, similar);
         
         if(combinedDTO.isEmpty()) {
-            throw new API_Exception(messages.songNotFound, 404);
+            throw new API_Exception(MESSAGES.songNotFound, 404);
         } else {
-            String combinedJSON = gson.toJson(combinedDTO);
+            String combinedJSON = GSON.toJson(combinedDTO);
 
             return combinedJSON;
         }

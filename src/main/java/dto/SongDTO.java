@@ -1,16 +1,18 @@
 package dto;
 
+import entities.Song;
+
 public class SongDTO {
     private String song;
     private String artist;
     private int releaseYear;
     private String album;
 
-    public SongDTO(String song, String artist, int releaseYear, String album) {
-        this.song = song;
-        this.artist = artist;
-        this.releaseYear = releaseYear;
-        this.album = album;
+    public SongDTO(Song song) {
+        this.song = song.getName();
+        this.artist = song.getArtist();
+        this.releaseYear = song.getReleaseYear();
+        this.album = song.getAlbum();
     }
 
     public String getSong() {
