@@ -53,7 +53,6 @@ public class UserFacadeTest {
 
             Role userRole = new Role("user");
             Role adminRole = new Role("admin");
-            User user = new User("user", "password");
             user.addRole(userRole);
             User admin = new User("admin", "password");
             admin.addRole(adminRole);
