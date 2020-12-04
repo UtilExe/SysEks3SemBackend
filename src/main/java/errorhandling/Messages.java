@@ -23,7 +23,7 @@ public class Messages {
     public final String CANNOT_SAVE_SONG_MISSING_NAME = "We couldn't save the song - song name missing";
     public final String NO_USERS_FOUND = "No users found";
     public final String NO_SONGS_FOUND = "No songs found";
-
+    public final String EDITUSER_SUCCES = "The user has been updated!";
     public Messages() {
     }
     
