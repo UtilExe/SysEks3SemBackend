@@ -145,4 +145,25 @@ public class SongResourceTest {
                 .body("message", equalTo(messages.SONG_NOT_FOUND));
     }
     
+    @Test
+    public void bookmarkSongTestRest() {
+        String songName = "Levels";
+        String artistName = "Avicii";
+        int releaseYear = 2011;
+        
+        String jsonRequest = String.format(
+                "{ \"song\": \"%s\", "
+                + "\"artist\": \"%s\","
+                + "\"releaseYear\": \"%d\" }", songName, artistName, releaseYear);
+        
+        login("user", "test");
+        
+        given()
+                .contentType("application/json")
+                .body(jsonRequest)
+                .header("x-access-token", securityToken)
+                .when().post("/song/bookmark").then()
+                .statusCode(200);
+    }
+    
 }

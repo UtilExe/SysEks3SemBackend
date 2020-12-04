@@ -81,8 +81,13 @@ public class SongResource {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public String bookmarkSong(@HeaderParam("x-access-token") String token, String inputSong) throws InterruptedException, ExecutionException, TimeoutException, API_Exception, ParseException, JOSEException, AuthenticationException {
+        JWTAuthenticationFilter jwtFilter = new JWTAuthenticationFilter();
+        UserPrincipal userPrincipal = jwtFilter.getUserPrincipalFromTokenIfValid(token);
+        String username = userPrincipal.getName();
+        
         SongDTO track = GSON.fromJson(inputSong, SongDTO.class);
-        SONG_FACADE.bookmarkSong(track.getSong(), track.getArtist(), track.getReleaseYear(), track.getAlbum(), token);
+        SONG_FACADE.bookmarkSong(track.getSong(), track.getArtist(), track.getReleaseYear(), track.getAlbum(), username);
+        
         return GSON.toJson(track);
     }
 
