@@ -45,8 +45,8 @@ public class SongFacade {
         EntityManager em = emf.createEntityManager();
         
         Song song = new Song(songName, artistName, releaseYear, albumName);
-        if(song == null) {
-            throw new API_Exception(MESSAGES.cannotSaveSong, 424);
+        if(song.isMissingSongName()) {
+            throw new API_Exception(MESSAGES.cannotSaveSongMissingName, 424);
         } else {
             User user = em.find(User.class, userPrincipal.getName());
             user.addSong(song);

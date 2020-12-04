@@ -20,7 +20,7 @@ public class Messages {
     public final String serverIsUp = "Server is up";
     public final String usernameDoesntExist = "The username doesn't exist! Can't delete user";
     public final String deletedAccount = "The user has been deleted";
-    public final String cannotSaveSong = "We couldn't save that song as no information about it was found";
+    public final String cannotSaveSongMissingName = "We couldn't save the song - song name missing";
 
     public Messages() {
     }

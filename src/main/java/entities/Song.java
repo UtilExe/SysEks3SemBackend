@@ -96,4 +96,12 @@ public class Song implements Serializable {
     public void addUser(User user) {
         this.users.add(user);
     }
+    
+    public boolean isMissingSongName() {
+        if(this.name.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
