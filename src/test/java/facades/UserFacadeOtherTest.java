@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.hasSize;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -98,10 +99,35 @@ public class UserFacadeOtherTest {
     
     @Test
     public void deleteUserTest() throws AuthenticationException, API_Exception, ObjectNotFoundException {
-      facade.deleteUser("user");
-      
-      List<UserDTO> userList = facade.getAllUsers();
-      assertThat(userList, hasSize(2));
+        facade.deleteUser("user");
+
+        List<UserDTO> userList = facade.getAllUsers();
+        assertThat(userList, hasSize(2));
+    }
+    
+    @Test
+    public void editUserTest() throws AuthenticationException, API_Exception, ObjectNotFoundException {
+        EntityManager em = emf.createEntityManager();  
+        
+        User userBefore = em.find(User.class, "user");
+        String beforePassword = userBefore.getUserPass();
+        
+        /*Use clear to detach all managed entities. 
+        In other words, find will have the same password if "em.clear()" is not used.*/
+        em.clear();
+
+        UserDTO habla = facade.editUser("user", "kebablalala");
+        
+        User userAfter = em.find(User.class, "user");
+        String afterPassword = userAfter.getUserPass();
+        
+        em.close();
+
+        if(!beforePassword.equals(afterPassword)) {
+            assertTrue(true);
+        } else {
+            assertTrue(false);
+        }
     }
 
 }
