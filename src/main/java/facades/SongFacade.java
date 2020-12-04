@@ -68,7 +68,7 @@ public class SongFacade {
         List<SongDTO> allSongsDTO = new ArrayList();
 
         try {
-            TypedQuery<Song> query = em.createQuery("SELECT s FROM Song s, User u WHERE u.userName = :username", Song.class)
+            TypedQuery<Song> query = em.createQuery("SELECT s FROM User u JOIN u.songs s WHERE u.userName = :username", Song.class)
                     .setParameter("username", username);
             allSongs = query.getResultList();
             
