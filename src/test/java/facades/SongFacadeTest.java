@@ -6,6 +6,9 @@ import entities.Role;
 import entities.Song;
 import entities.User;
 import errorhandling.API_Exception;
+import java.util.ArrayList;
+import java.util.List;
+import javassist.tools.rmi.ObjectNotFoundException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.AfterAll;
@@ -13,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import utils.EMF_Creator;
 
 
@@ -21,6 +25,10 @@ public class SongFacadeTest {
     private static EntityManagerFactory emf;
     private static SongFacade facade;
     
+    private static Song song1 = new Song("Levels", "Avicii", 2011, "");
+    private static Song song2 = new Song("Intro", "M83", 2011, "");
+    private static Song song3 = new Song("Silhouettes", "Avicii", 2011, "");
+            
     private static User user = new User("user", "password");
 
     /*
@@ -50,6 +58,12 @@ public class SongFacadeTest {
             //Delete existing users and roles to get a "fresh" database
             em.createQuery("delete from User").executeUpdate();
             em.createQuery("delete from Role").executeUpdate();
+            
+            Song song1 = new Song("Levels", "Avicii", 2011, "");
+            Song song2 = new Song("Intro", "M83", 2011, "");
+            Song song3 = new Song("Silhouettes", "Avicii", 2011, "");
+            
+            User user = new User("user", "password");
 
             Role userRole = new Role("user");
             Role adminRole = new Role("admin");
@@ -59,11 +73,22 @@ public class SongFacadeTest {
             User both = new User("user_admin", "password");
             both.addRole(userRole);
             both.addRole(adminRole);
+            
+            user.addSong(song1);
+            song1.addUser(user);
+            user.addSong(song2);
+            song2.addUser(user);
+            user.addSong(song3);
+            song3.addUser(user);
+            
             em.persist(userRole);
             em.persist(adminRole);
-            em.persist(user);
             em.persist(admin);
             em.persist(both);
+            em.persist(user);
+            em.persist(song1);
+            em.persist(song2);
+            em.persist(song3);
             //System.out.println("Saved test data to database");
             em.getTransaction().commit();
         } finally {
@@ -88,6 +113,25 @@ public class SongFacadeTest {
         
         assertEquals(expected.getSong(), result.getSong());
         assertEquals(expected.getArtist(), result.getArtist());
+    }
+    
+    @Disabled
+    @Test
+    public void showSavedSongsTest() throws API_Exception, ObjectNotFoundException {
+        Song song1 = new Song("Levels", "Avicii", 2011, "");
+        Song song2 = new Song("Intro", "M83", 2011, "");
+        Song song3 = new Song("Silhouettes", "Avicii", 2011, "");
+        
+        List<SongDTO> expected = new ArrayList();
+        expected.add(new SongDTO(song1));
+        expected.add(new SongDTO(song2));
+        expected.add(new SongDTO(song3));
+        
+        List<SongDTO> result = facade.showSavedSongs(user.getUserName());
+        
+        assertTrue(result.contains(new SongDTO(song1)));
+        assertTrue(result.contains(new SongDTO(song2)));
+        assertTrue(result.contains(new SongDTO(song3)));
     }
     
     

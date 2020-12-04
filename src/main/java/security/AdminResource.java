@@ -87,7 +87,7 @@ public class AdminResource {
     @Path("all")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAllUsers() throws ObjectNotFoundException {
+    public String getAllUsers() throws API_Exception {
         return gson.toJson(USER_FACADE.getAllUsers());
     }
 

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import security.JWTAuthenticationFilter;
 import security.UserPrincipal;
 import security.errorhandling.AuthenticationException;
@@ -61,15 +62,18 @@ public class SongFacade {
         }
     }
     
-    public List<SongDTO> showSavedSongs(String username) throws ObjectNotFoundException {
+    public List<SongDTO> showSavedSongs(String username) throws API_Exception {
         EntityManager em = emf.createEntityManager();
         List<Song> allSongs = new ArrayList();
         List<SongDTO> allSongsDTO = new ArrayList();
 
         try {
-            allSongs = em.createNamedQuery("Song.getAllRows").getResultList();
+            TypedQuery<Song> query = em.createQuery("SELECT s FROM Song s WHERE s.name = :username", Song.class)
+                    .setParameter("username", username);
+            allSongs = query.getResultList();
+            
             if (allSongs.isEmpty() || allSongs == null) {
-                throw new ObjectNotFoundException(MESSAGES.NO_PERSONS_FOUND);
+                throw new API_Exception(MESSAGES.NO_SONGS_FOUND, 404);
             }
 
             for (Song song : allSongs) {

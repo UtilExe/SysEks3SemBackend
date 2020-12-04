@@ -90,7 +90,7 @@ public class UserFacadeOtherTest {
     }
     
     @Test
-    public void getAllUsersTest() throws ObjectNotFoundException {
+    public void getAllUsersTest() throws ObjectNotFoundException, API_Exception {
         List<UserDTO> userList = facade.getAllUsers();
         
         assertThat(userList, hasSize(3));
