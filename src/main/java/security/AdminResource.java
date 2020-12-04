@@ -103,13 +103,13 @@ public class AdminResource {
         try {
             JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
             username = json.get("username").getAsString();
-            editedUsername = json.get("editedUsername").getAsString();
+            //editedUsername = json.get("editedUsername").getAsString();
             editedPassword = json.get("editedPassword").getAsString();
         } catch (Exception e) {
             throw new API_Exception(MESSAGES.MALFORMED_JSON, 400, e);
         }
         try {
-            UserDTO user = USER_FACADE.editUser(username, editedUsername, editedPassword);
+            UserDTO user = USER_FACADE.editUser(username, editedPassword);
             JsonObject responseJson = new JsonObject();
             responseJson.addProperty("username", username);
             responseJson.addProperty("message", MESSAGES.EDITUSER_SUCCES);

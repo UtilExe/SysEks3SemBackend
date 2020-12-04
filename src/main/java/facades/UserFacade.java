@@ -117,7 +117,7 @@ public class UserFacade {
         }
     }
 
-    public UserDTO editUser(String username, String editedUsername, String editedPassword) {
+    public UserDTO editUser(String username, String editedPassword) {
         EntityManager em = emf.createEntityManager();
         User user = null;
         try {
@@ -126,9 +126,6 @@ public class UserFacade {
 
             if (user == null) {
                 throw new NoResultException(MESSAGES.USERNAME_DOESNT_EXIST);
-            }
-            if (!editedUsername.isEmpty()) {
-                user.setUserName(editedUsername);
             }
             if (!editedPassword.isEmpty()) {
                 user.setUserPass(editedPassword);
