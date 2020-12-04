@@ -86,9 +86,6 @@ public class SongFacadeTest {
             em.persist(admin);
             em.persist(both);
             em.persist(user);
-            em.persist(song1);
-            em.persist(song2);
-            em.persist(song3);
             //System.out.println("Saved test data to database");
             em.getTransaction().commit();
         } finally {

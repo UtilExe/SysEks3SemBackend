@@ -2,6 +2,7 @@
 package rest;
 
 import entities.Role;
+import entities.Song;
 import entities.User;
 import errorhandling.API_Exception;
 import errorhandling.Messages;
@@ -34,7 +35,11 @@ public class SongResourceTest {
     private static HttpServer httpServer;
     private static EntityManagerFactory emf;
     
-    private static final Messages messages = new Messages();
+    Song song1 = new Song("Levels", "Avicii", 2011, "");
+    Song song2 = new Song("Intro", "M83", 2011, "");
+    Song song3 = new Song("Silhouettes", "Avicii", 2011, "");
+    
+    private static final Messages MESSAGES = new Messages();
     
     static HttpServer startServer() {
         ResourceConfig rc = ResourceConfig.forApplication(new ApplicationConfig());
@@ -72,6 +77,10 @@ public class SongResourceTest {
             //Delete existing users and roles to get a "fresh" database
             em.createQuery("delete from User").executeUpdate();
             em.createQuery("delete from Role").executeUpdate();
+            
+            Song song1 = new Song("Levels", "Avicii", 2011, "");
+            Song song2 = new Song("Intro", "M83", 2011, "");
+            Song song3 = new Song("Silhouettes", "Avicii", 2011, "");
 
             Role userRole = new Role("user");
             Role adminRole = new Role("admin");
@@ -82,6 +91,13 @@ public class SongResourceTest {
             User both = new User("user_admin", "test");
             both.addRole(userRole);
             both.addRole(adminRole);
+            user.addSong(song1);
+            song1.addUser(user);
+            user.addSong(song2);
+            song2.addUser(user);
+            user.addSong(song3);
+            song3.addUser(user);
+            
             em.persist(userRole);
             em.persist(adminRole);
             em.persist(user);
@@ -142,7 +158,7 @@ public class SongResourceTest {
                 .header("x-access-token", securityToken)
                 .when().post("/song/search").then()
                 .statusCode(404)
-                .body("message", equalTo(messages.SONG_NOT_FOUND));
+                .body("message", equalTo(MESSAGES.SONG_NOT_FOUND));
     }
     
     @Test
@@ -163,6 +179,18 @@ public class SongResourceTest {
                 .body(jsonRequest)
                 .header("x-access-token", securityToken)
                 .when().post("/song/bookmark").then()
+                .statusCode(200);
+    }
+    
+    @Test
+    public void showSavedSongsTest() {
+        
+        login("user", "test");
+        
+        given()
+                .contentType("application/json")
+                .header("x-access-token", securityToken)
+                .when().get("/song/user/all").then()
                 .statusCode(200);
     }
     
