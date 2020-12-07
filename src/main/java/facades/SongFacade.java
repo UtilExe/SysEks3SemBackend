@@ -1,22 +1,16 @@
 
 package facades;
 
-import com.nimbusds.jose.JOSEException;
 import dto.SongDTO;
 import entities.Song;
 import entities.User;
 import errorhandling.API_Exception;
 import errorhandling.Messages;
-import java.text.ParseException;
-import javassist.tools.rmi.ObjectNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
-import security.JWTAuthenticationFilter;
-import security.UserPrincipal;
-import security.errorhandling.AuthenticationException;
 
 /**
  * @author Daniel, Emil, Jannich, Jimmy

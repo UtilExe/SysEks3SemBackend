@@ -1,7 +1,5 @@
 package dto;
 
-import java.util.Objects;
-
 /**
  * @author Daniel, Emil, Jannich, Jimmy
  * LyricsDTO returns the response from our Lyrics endpoint/API.

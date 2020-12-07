@@ -2,8 +2,6 @@
 package dto;
 
 import entities.User;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Daniel, Emil, Jannich, Jimmy

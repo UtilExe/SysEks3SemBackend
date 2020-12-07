@@ -7,11 +7,9 @@ import errorhandling.API_Exception;
 import errorhandling.Messages;
 import java.util.ArrayList;
 import java.util.List;
-import javassist.tools.rmi.ObjectNotFoundException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import security.errorhandling.AuthenticationException;
 
 /**

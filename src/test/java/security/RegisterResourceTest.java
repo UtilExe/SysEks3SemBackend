@@ -3,7 +3,6 @@ package security;
 
 import entities.Role;
 import entities.User;
-import errorhandling.API_Exception;
 import errorhandling.Messages;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
@@ -17,9 +16,7 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import static org.hamcrest.Matchers.equalTo;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
