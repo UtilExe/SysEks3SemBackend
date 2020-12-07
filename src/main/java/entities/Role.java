@@ -14,9 +14,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- *
- * @author Plaul
+ * @author Daniel, Emil, Jannich, Jimmy
+ * The Role Entity is used to store roles for an User, in the database. 
+ * The Role entity has a ManyToMany relation with the User.
  */
+
 @Entity
 @NamedQuery(name = "Role.deleteAllRows", query = "DELETE from Role")
 @Table(name = "roles")

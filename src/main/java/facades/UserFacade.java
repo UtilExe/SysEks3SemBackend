@@ -14,6 +14,12 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import security.errorhandling.AuthenticationException;
 
+/**
+ * @author Daniel, Emil, Jannich, Jimmy
+ * The UserFacade handles the communication with the database.
+ * It supports creating, deletion, edit, and retrieval of users.
+ */
+
 public class UserFacade {
 
     private static EntityManagerFactory emf;

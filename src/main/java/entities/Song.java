@@ -16,6 +16,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+/**
+ * @author Daniel, Emil, Jannich, Jimmy
+ * The Song Entity handles our feature where an User can save a song, which gets
+ * stored in our database. There's a Many-To-Many relationship with the User entity.
+ */
+
 @Entity
 @NamedQueries({
 @NamedQuery(name = "Song.deleteAllRows", query = "DELETE from Song"),

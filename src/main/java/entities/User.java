@@ -20,6 +20,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.mindrot.jbcrypt.BCrypt;
 
+/**
+ * @author Daniel, Emil, Jannich, Jimmy
+ * The User Entity stores our Users, with a username and a password (which is hashed). 
+ * There's a Many-To-Many relationship to Roles, and to Songs aswell.  
+ */
+
 @Entity
 @NamedQueries({
 @NamedQuery(name = "User.deleteAllRows", query = "DELETE from User"),

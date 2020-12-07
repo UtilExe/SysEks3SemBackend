@@ -9,6 +9,11 @@ import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
+/**
+ * @author Daniel, Emil, Jannich, Jimmy
+ * The CorsFilter class prevents CORS errors when we fetch our backend, from our Frontend. 
+ */
+
 @Provider
 @PreMatching
 public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilter {

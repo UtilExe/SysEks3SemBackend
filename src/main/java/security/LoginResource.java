@@ -30,6 +30,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.GET;
 import utils.EMF_Creator;
 
+
 @Path("login")
 public class LoginResource {
 

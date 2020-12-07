@@ -4,6 +4,11 @@ package dto;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * @author Daniel, Emil, Jannich, Jimmy
+ * ITunesDTO returns the response from our ITunes endpoint/API.
+ */
+
 public class ITunesDTO {
     
     Object results;

@@ -18,6 +18,11 @@ import security.JWTAuthenticationFilter;
 import security.UserPrincipal;
 import security.errorhandling.AuthenticationException;
 
+/**
+ * @author Daniel, Emil, Jannich, Jimmy
+ * The SongFacade handles the communication with the database, where you can
+ * bookmark and show a saved song.
+ */
 
 public class SongFacade {
     

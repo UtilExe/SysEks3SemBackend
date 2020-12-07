@@ -5,6 +5,11 @@ import entities.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Daniel, Emil, Jannich, Jimmy
+ * UserDTO is used to return our username for the specific user.
+ */
+
 public class UserDTO {
     
     private String username;
