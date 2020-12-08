@@ -1,8 +1,7 @@
 package dto;
 
-/**
+/** SimilarDTO is used to return two parameters, from our Similar endpoint/API. 
  * @author Daniel, Emil, Jannich, Jimmy
- * SimilarDTO is used to return two parameters, from our Similar endpoint/API. 
  */
 
 public class SimilarDTO {

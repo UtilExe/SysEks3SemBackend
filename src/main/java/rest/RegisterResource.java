@@ -18,11 +18,10 @@ import utils.EMF_Creator;
 import errorhandling.Messages;
 import javax.ws.rs.GET;
 
-/**
- * @author Daniel, Emil, Jannich, Jimmy
- * RegisterResource is a Rest class with an endpoint, that supports creating an account. 
+/** RegisterResource is a Rest class with an endpoint, that supports creating an account. 
  * This includes an username, password, and passwordCheck as fields, and is then a POST.
  * It makes use of our UserDTO, and UserFacade.
+ * @author Daniel, Emil, Jannich, Jimmy
  */
 
 @Path("register")

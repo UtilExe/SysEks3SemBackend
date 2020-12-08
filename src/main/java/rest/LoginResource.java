@@ -31,10 +31,9 @@ import javax.ws.rs.GET;
 import security.SharedSecret;
 import utils.EMF_Creator;
 
-/**
- * @author Daniel, Emil, Jannich, Jimmy
- * LoginResource is a Rest class, where we have endpoints, such as login (POST) 
+/** LoginResource is a Rest class, where we have endpoints, such as login (POST) 
  * where you login with an username, and a password. 
+ * @author Daniel, Emil, Jannich, Jimmy
  */
 @Path("login")
 public class LoginResource {

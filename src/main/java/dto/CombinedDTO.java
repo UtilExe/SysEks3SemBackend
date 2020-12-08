@@ -1,8 +1,8 @@
 package dto;
 
-/**
+/** Our CombinedDTO class combines our three different Objects, that is returned 
+ * as response from our Song resource endpoint. 
  * @author Daniel, Emil, Jannich, Jimmy
- * Our CombinedDTO class combines our three different Objects, that is returned as response from our Song resource endpoint. 
  */
 
 public class CombinedDTO {

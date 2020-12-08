@@ -3,9 +3,8 @@ package dto;
 
 import java.util.ArrayList;
 
-/**
+/** ITunesDTO returns the response from our ITunes endpoint/API.
  * @author Daniel, Emil, Jannich, Jimmy
- * ITunesDTO returns the response from our ITunes endpoint/API.
  */
 
 public class ITunesDTO {

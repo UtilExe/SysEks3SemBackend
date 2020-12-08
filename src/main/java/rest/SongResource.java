@@ -39,11 +39,10 @@ import utils.Helper;
 import utils.HttpUtils;
 import utils.Keys;
 
-/**
- * @author Daniel, Emil, Jannich, Jimmy
- * The SongResource is one our Rest functionality classes, where you can reach 
+/** The SongResource is one our Rest functionality classes, where you can reach 
  * our Endpoints through a Path, and a Method call (POST/GET etc.)
  * It uses our DTO classes, our Facades, and specifies our external API's.
+ * @author Daniel, Emil, Jannich, Jimmy
  */
 
 @Path("song")

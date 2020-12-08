@@ -3,9 +3,8 @@ package dto;
 
 import entities.User;
 
-/**
+/** UserDTO is used to return our username for the specific user.
  * @author Daniel, Emil, Jannich, Jimmy
- * UserDTO is used to return our username for the specific user.
  */
 
 public class UserDTO {

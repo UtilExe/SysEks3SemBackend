@@ -1,9 +1,9 @@
 package dto;
 
-/**
+/** LyricsDTO returns the response from our Lyrics endpoint/API.
  * @author Daniel, Emil, Jannich, Jimmy
- * LyricsDTO returns the response from our Lyrics endpoint/API.
  */
+
 public class LyricsDTO {
     
     String artistName;

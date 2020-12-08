@@ -2,10 +2,9 @@ package dto;
 
 import entities.Song;
 
-/**
- * @author Daniel, Emil, Jannich, Jimmy
- * Our SongDTO is used for handling our requests, when sending a POST. 
+/** Our SongDTO is used for handling our requests, when sending a POST. 
  * For example, when searching for a song, "song" and "artist" parameters are used. 
+ * @author Daniel, Emil, Jannich, Jimmy
  */
 
 public class SongDTO {

@@ -11,10 +11,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-/**
- * @author Daniel, Emil, Jannich, Jimmy
- * The Role Entity is used to store roles for an User, in the database. 
+/** The Role Entity is used to store roles for an User, in the database. 
  * The Role entity has a ManyToMany relation with the User.
+ * @author Daniel, Emil, Jannich, Jimmy
  */
 
 @Entity

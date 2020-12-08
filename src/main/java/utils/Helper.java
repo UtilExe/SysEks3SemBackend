@@ -1,10 +1,9 @@
 package utils;
 
-/**
- * @author Daniel, Emil, Jannich, Jimmy
- * The Helper class is used in our SongResource, to handle "æøå" and spaces.
+/** The Helper class is used in our SongResource, to handle "æøå" and spaces.
  * It's needed because several of our external API's don't support spacing and special symbols,
  * So through our Helper class, we convert it to what is supported, in a generic way.
+ * @author Daniel, Emil, Jannich, Jimmy
  */
 
 public class Helper {
