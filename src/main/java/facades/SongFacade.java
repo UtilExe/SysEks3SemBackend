@@ -12,11 +12,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
-/**
- * @author Daniel, Emil, Jannich, Jimmy /**
- * The SongFacade handles the communication with the database, where you can
+/** The SongFacade handles the communication with the database, where you can 
  * bookmark and show a saved song.
- */
+ * @author Daniel, Emil, Jannich, Jimmy
+*/
 
 public class SongFacade {
     
