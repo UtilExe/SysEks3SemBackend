@@ -30,9 +30,6 @@ public class SongFacadeTest {
             
     private static User user = new User("user", "password");
 
-    /*
-    String name, String artist, int releaseYear, String album
-     */
     public SongFacadeTest() {
     }
 

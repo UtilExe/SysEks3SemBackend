@@ -18,9 +18,6 @@ public class UserFacadeTest {
     private static UserFacade facade;
     private static final User user = new User("user", "password");
 
-    /*
-    String name, String artist, int releaseYear, String album
-     */
     public UserFacadeTest() {
     }
 

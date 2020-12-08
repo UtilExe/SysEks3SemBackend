@@ -1,4 +1,4 @@
-package security;
+package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,6 +20,15 @@ import errorhandling.Messages;
 import javax.persistence.NoResultException;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
+
+
+/**
+ * @author Daniel, Emil, Jannich, Jimmy
+ * The AdminResource is one our Rest functionality classes, where you can reach 
+ * our Endpoints through a Path, and a Method call (POST/GET etc.)
+ * It uses UserDTO, UserFacade, and handles the user actions, 
+ * such as delete and edit an user.
+ */
 
 @Path("admin")
 public class AdminResource {

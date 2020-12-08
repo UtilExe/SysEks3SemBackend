@@ -1,4 +1,4 @@
-package security;
+package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -28,9 +28,14 @@ import errorhandling.GenericExceptionMapper;
 import errorhandling.Messages;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.GET;
+import security.SharedSecret;
 import utils.EMF_Creator;
 
-
+/**
+ * @author Daniel, Emil, Jannich, Jimmy
+ * LoginResource is a Rest class, where we have endpoints, such as login (POST) 
+ * where you login with an username, and a password. 
+ */
 @Path("login")
 public class LoginResource {
 
